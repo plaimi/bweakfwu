@@ -27,8 +27,8 @@ The game is built using ghc.
 Installing and Running
 ======================
 
-NOTE: This repository is for developers. If you are a regular user, you should 
-refer to <https://plaimi.net/games/bweakfwu/>.
+NOTE: This repository is for developers. If you are a regular user, you should
+refer to <https://secure.plaimi.net/games/bweakfwu/>.
 
 Install instructions using cabal
 --------------------------------
