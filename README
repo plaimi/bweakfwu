@@ -1,0 +1,70 @@
+About bweakfwu
+===============
+bweakfwu is a crossover between Pong and Breakout with retro (shit) graphics. 
+It features local two-player.
+
+The controls are up/down arrow for moving the right paddle, and left arrow for 
+launching its ball. For the right paddle, use ','/'o' for moving the paddle, 
+and 'e' for launching the ball. We do not have control remapping support yet, 
+but you can change it in src/bweakfwu/Handle.hs if you are not a dvorak user. 
+Just change the ',', the 'o' and the 'e' to whatever character you want, like 
+'w', 's', 'd'.
+
+For a more detailed explanation of features see the design document in 
+doc/design.txt. For an explanation of how these features are implemented see 
+the technical document in doc/technical.txt. For an explanation on how the 
+explanations are structured, see doc/about.txt. Note that these documents may
+reflect our currently immediate goals, not the current status of the 
+implementation.
+
+
+Dependencies
+============
+
+The game is built using ghc.
+
+
+Installing and Running
+======================
+
+NOTE: This repository is for developers. If you are a regular user, you should 
+refer to <https://plaimi.net/games/bweakfwu/>.
+
+Install instructions using cabal
+--------------------------------
+$ cabal configure
+$ cabal build
+$ cabal install
+
+
+Licensing and Legalese
+=======================
+
+bweakfwu is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+bweakfwu is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with bweakfwu.  If not, see <http://www.gnu.org/licenses/>.
+
+
+Contributing To the Project
+===========================
+
+If you want to report a bug, use <https://secure.plaimi.net/bugs>. Bug reports 
+may also be enhancements, i.e. feature requests.
+
+If you want to otherwise discuss the game use
+<https://secure.plaimi.net/mailing.php>.
+
+If you want to contribute code, upload a patch to the corresponding bug on 
+Bugzilla -- or, if there is none, send it to the mailing list linked above.
+Make sure you update doc/*.txt in your patch!
+
+/* vim: set textwidth=78 formatoptions=actw2 autoindent: */

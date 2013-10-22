@@ -1,0 +1,9 @@
+# Swap files
+.*
+!.gitignore
+
+# Temporary files
+*~
+
+# Build
+dist/

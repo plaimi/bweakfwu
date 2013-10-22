@@ -1,0 +1,95 @@
+Overview
+========
+
+The game has a menu and a game world.
+
+
+Menu system
+===========
+
+The menu system consists of two menus:
+    - Main menu
+    - Options
+
+Main menu
+---------
+The main menu has three buttons:
+    - New game (makes a new Game World)
+    - Options (opens the Options menu)
+    - Quit game (quits the game)
+
+Options
+-------
+The options menu has two buttons:
+    - Change keys (lets the user set the key bindings)
+    - Back to main menu (returns to the main menu)
+
+Sound effects
+-------------
+When the mouse is hovering over an option, a pleasant humming noise is played.
+
+When an option is selected a blip is played.
+
+Else, an annoying high-pitched noise is played.
+
+
+Game World
+==========
+
+The game world consists of:
+    -A board with 15*15 bricks.
+    -Two paddles, one on each short-end (left and right, respective to the
+        screen). Each paddle owns a ball.
+    -An on-screen-display
+
+Actors
+------
+Actors control paddles and get points for their gameplay.
+
+Boards
+------
+A board is where the game is played. It is a grid of 80 x 45 cells. The game 
+has one board, with 15*7 bricks, centred on the screen. Empty board cells are
+black.
+
+Bricks
+------
+Bricks are destructible 1 x 3 cell pieces on the board. The actors are awarded 
+one point each time they hit a brick with their ball.
+
+Paddles
+-------
+Paddles are the "characters" of the game. They may move vertically (respective 
+to the screen). A paddle is 1 x 5 cells. The left paddle is yellow and the 
+right is magenta.
+
+Ball
+----
+A ball is a small round object that may collide with the edges of the screen, 
+paddles and bricks. A ball is a cell. The ball shares its colour with its 
+owner paddle. Each paddle owns a ball.
+
+Rules
+-----
+The object of the game is to hit the bricks on the board and then to make the 
+balls hit the screen edge behind the opponent actor's paddle.
+
+If a paddle's ball hits a brick its actor gets a point.
+
+If a paddle's ball hits the opponent paddle's screen edge, the paddle's actor 
+gets 50 points.
+
+If a paddle's ball hits the paddle's screen edge, the paddle's actor gets -30
+points.
+
+On-screen-display
+-----------------
+The on-screen display shows the current score centred at the top of the board.
+
+Sound effects
+-------------
+When the ball collides with something, a goat scream is played.
+
+Music
+-----
+The game has stressful and angst-infused background music.

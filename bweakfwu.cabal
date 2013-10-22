@@ -1,0 +1,27 @@
+name: bweakfwu
+version: 0.0.1
+description: Breakout meets PONG
+license: GPL-3
+license-file: LICENSE
+author: Alexander Berntsen
+maintainer: alexander@plaimi.net
+build-type: Simple
+category: Game
+homepage: https://secure.plaimi.net/games/bweakfwu/
+
+Executable bweakfwu
+           ghc-options: -O2 -threaded
+           hs-source-dirs: src src/bweakfwu
+           other-modules: Handle
+                          Movable
+                          Movable.Ball
+                          Movable.Paddle
+                          Rectangle
+                          Tangible
+                          Vector
+                          Visible
+                          Visible.ScoreKeeper
+                          Window
+                          World
+           Main-is: Main.hs
+           Build-Depends: base >= 4, gloss >= 1.8.0.1
