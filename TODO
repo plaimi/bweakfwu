@@ -4,25 +4,27 @@ core gameplay
 
 alpha-2
 =======
-polished core gameplay
+advanced gameplay elements
+rudimentary graphics
 rudimentary menu
 
 alpha-3
 =======
-advanced gameplay elements
 near-finished menu
+rudimentary sound effects and music
 rudimentary ai
 
 alpha-4
 =======
 near-finished gameplay
+near-finished graphics
+near-finished sound effects and music
 near-finished ai
-sound
 
 
 beta-1
 ======
-near-finished everything mentioned thus far
+juicing
 
 beta-2
 ======
@@ -30,8 +32,12 @@ networking
 
 beta-3
 ======
-near finished networking as well
+near-finished networking
+near-finished juicing
 
 beta-4
 ======
 final touches and polish
+
+
+all stages will involve general code refactoring and optimisations
