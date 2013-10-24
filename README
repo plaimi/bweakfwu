@@ -3,12 +3,10 @@ About bweakfwu
 bweakfwu is a crossover between Pong and Breakout with retro (shit) graphics. 
 It features local two-player.
 
-The controls are up/down arrow for moving the right paddle, and left arrow for 
-launching its ball. For the right paddle, use ','/'o' for moving the paddle, 
-and 'e' for launching the ball. We do not have control remapping support yet, 
-but you can change it in src/bweakfwu/Handle.hs if you are not a dvorak user. 
-Just change the ',', the 'o' and the 'e' to whatever character you want, like 
-'w', 's', 'd'.
+The controls are up/down arrow for moving the right paddle, and left arrow for
+launching its ball. For the right paddle, use 'u'/'j' for moving the paddle,
+and 'k' for launching the ball. We do not have control remapping support yet,
+but you can change it in src/bweakfwu/Handle.hs.
 
 For a more detailed explanation of features see the design document in 
 doc/design.txt. For an explanation of how these features are implemented see 

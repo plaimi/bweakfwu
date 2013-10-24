@@ -37,15 +37,15 @@ handle (EventKey (SpecialKey KeyDown) state _ _) (World (p1, p2) b bs s) =
   World (p1, react p2 (D, state == Down)) b bs s
 
 -- Right paddle up
-handle (EventKey (Char ',') state _ _) (World (p1, p2) b bs s) =
+handle (EventKey (Char 'u') state _ _) (World (p1, p2) b bs s) =
   World (react p1 (U, state == Down), p2) b bs s
 
 -- Right paddle down
-handle (EventKey (Char 'o') state _ _) (World (p1, p2) b bs s) =
+handle (EventKey (Char 'j') state _ _) (World (p1, p2) b bs s) =
   World (react p1 (D, state == Down), p2) b bs s
 
 -- Left paddle launch ball
-handle (EventKey (Char 'e') Down _ _) (World p@(p1, _) (b1, b2) bs s) =
+handle (EventKey (Char 'k') Down _ _) (World p@(p1, _) (b1, b2) bs s) =
   World p (launchBall b1 p1, b2) bs s
 
 -- Right paddle launch ball
