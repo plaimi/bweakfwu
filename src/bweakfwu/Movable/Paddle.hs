@@ -23,11 +23,11 @@ import Graphics.Gloss.Data.Picture (Picture (Color, Translate)
                                    , rectangleSolid)
 import Graphics.Gloss.Data.Point (Point)
 
-import Movable (Movable, Acceleration, Speed, Velocity, move, vel)
+import Movable (Movable, Speed, Velocity, acceleration, move, vel, targetVel
+               ,updateVelocity)
 import Rectangle (RectangleSize)
 import Tangible (Tangible, Position, bottom, centre
                 , colour, height, left, right, top, width)
-import Vector ((^+^), (^-^), (^*^), magVec)
 import Visible (Visible, render)
 
 data Paddle = Paddle Position RectangleSize Color Velocity Controls
@@ -56,14 +56,14 @@ instance Tangible Paddle where
 instance Movable Paddle where
   vel (Paddle (_, _) (_, _) _ v _)    = v
 
-  move (Paddle (x, y) (w, h) c v (cu, cd, cl)) dt =
-    Paddle (x, y + snd v * dt) (w, h) c v' (cu, cd, cl)
-    where dv = tv ^-^ v
-          k  = min 1 $ dt * acceleration * min 1.0 (1.0 / magVec dv)
-          v' = dv ^*^ k ^+^ v
-          tv = (0, tvy cu - tvy cd)
-          tvy False = 0
+  move p@(Paddle (x, y) (w, h) c v (cu, cd, cl)) dt =
+    Paddle (x, y + snd v * dt) (w, h) c (updateVelocity p dt) (cu, cd, cl)
+
+  targetVel (Paddle _ _ _ _ (cu, cd, _)) = (0, tvy cu - tvy cd)
+    where tvy False = 0
           tvy True = maxSpeed
+
+  acceleration _ = 300
 
 react ::  Paddle -> ControlInput -> Paddle
 react (Paddle pos s c v ctrls) ci = Paddle pos s c v $ updateControls ci ctrls
@@ -75,6 +75,3 @@ updateControls (L, b) (u, d, _) = (u, d, b)
 
 maxSpeed ::  Speed
 maxSpeed = 45.0
-
-acceleration ::  Acceleration
-acceleration = 300.0

@@ -1,5 +1,6 @@
 {-
 - Copyright (C) 2013 Alexander Berntsen <alexander@plaimi.net>
+- Copyright (C) 2013 Stian Ellingsen <stian@plaimi.net>
 -
 - This file is part of bweakfwu
 -
@@ -22,13 +23,13 @@ import Control.Monad (msum)
 import Graphics.Gloss.Data.Color (Color)
 import Graphics.Gloss.Data.Picture (Picture (Color, Translate), circleSolid)
 
-import Movable (Movable, Velocity, move, vel)
+import Movable (Movable, Velocity, acceleration, move, targetVel
+               ,updateVelocity, vel)
 import Rectangle (collideEdges, collideCorners)
 import Tangible (Tangible, Normal, Position, Radius, bottom, centre, colour
                 ,height, left, right, top, width)
 import Vector ((^-^), (^/^), magVec)
 import Visible (Visible, render)
-
 
 data Ball = Ball Position Radius Color Velocity
 
@@ -51,7 +52,12 @@ instance Tangible Ball where
 instance Movable Ball where
   vel (Ball _ _ _ v)         = v
 
-  move (Ball (x, y) c r v) t = Ball (x + fst v * t, y + snd v * t) c r v
+  move b@(Ball (x, y) c r v) t =
+    Ball (x + fst v * t, y + snd v * t) c r (updateVelocity b t)
+
+  targetVel = vel
+
+  acceleration _ = 0
 
 collideRectangle ::
   Tangible a => Ball -> a -> Velocity -> Maybe (Normal, Velocity)

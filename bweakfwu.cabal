@@ -18,6 +18,7 @@ Executable bweakfwu
                           Movable.Paddle
                           Rectangle
                           Tangible
+                          Time
                           Vector
                           Visible
                           Visible.ScoreKeeper
