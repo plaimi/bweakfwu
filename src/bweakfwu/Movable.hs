@@ -24,4 +24,6 @@ class Movable a where
   vel    ::  a -> Velocity
   move   ::  a -> Float -> a
 
+type Acceleration = Float
+type Speed = Float
 type Velocity = Vector

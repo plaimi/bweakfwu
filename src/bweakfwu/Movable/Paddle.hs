@@ -23,9 +23,9 @@ import Graphics.Gloss.Data.Picture (Picture (Color, Translate)
                                    , rectangleSolid)
 import Graphics.Gloss.Data.Point (Point)
 
-import Movable (Movable, Velocity, move, vel)
+import Movable (Movable, Acceleration, Speed, Velocity, move, vel)
 import Rectangle (RectangleSize)
-import Tangible (Tangible, Acceleration, Position, Speed, bottom, centre
+import Tangible (Tangible, Position, bottom, centre
                 , colour, height, left, right, top, width)
 import Vector ((^+^), (^-^), (^*^), magVec)
 import Visible (Visible, render)

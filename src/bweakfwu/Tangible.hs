@@ -39,8 +39,6 @@ type Height = Float
 type Radius = Float
 type Position = (Width, Height)
 type Normal = Vector
-type Speed = Float
-type Acceleration = Float
 
 reflect ::  Normal -> Velocity -> Velocity -> Velocity
 reflect n v w =
