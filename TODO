@@ -1,12 +1,48 @@
-alpha-1
-=======
-core gameplay
-
 alpha-2
 =======
 advanced gameplay elements
+  -power up paddle
+    paddle powers up by drifting towards its screen edge and thrusting
+    forward, with a slight bounce.
+  -tilt paddle
+    tilt paddle to hit ball, like in pinball games.
+  -brick ownership, bricks change colours/health based on who hits it
+    when a paddle hits a neutral (white) brick, the brick starts getting the
+    paddle's colour (like present gameplay) and loses a hit point. when a
+    paddle hits a brick owned by the other paddle, the brick gains a hit point
+    and thereby loses a bit of the opposing paddle's colour.
+  -gravitation
+    simple gravitation where the objects have gravitational mass that affects
+    the balls.
 rudimentary graphics
+  -balls blinking when hitting stuff
+    balls change colour briefly when colliding, blinking.
+  -balls temporarily scaling up when colliding
+    balls grow briefly when colliding, scaling down quickly afterwards.
+  -paddles temporarily scaling up when hitting balls
+    paddles grow briefly when hitting balls, scaling down quickly afterwards.
+  -ball trails
+    the balls have contrails. please note that we do not need to introduce an
+    atmosphere. nor need the balls emit water vapour. pls2not over-engineer.
+    pls. such trubble. so scare. wow. much reward.
+  -paddle stretching when accelerating
+    when the paddle accelerates, its height is momentarily stretched.
+  -basic entity graphics
+    entities should have outlines, rounded corners and err anything but solid
+    colours
 rudimentary menu
+  -start game
+    just starts the game -- world.bang and step.
+  -change keys
+    remapping of keys for the paddles.
+  -change paddle colours
+    remapping of colours for the paddles.
+  -quit game
+    just exit the game.
+temporary sound effects
+  -blip when the ball hits a brick
+  -blop when the ball hits the wall
+  -blap when the ball hits the paddle
 
 alpha-3
 =======
