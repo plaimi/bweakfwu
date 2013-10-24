@@ -24,8 +24,8 @@ import Graphics.Gloss.Data.Picture (Picture (Color, Translate), circleSolid)
 
 import Movable (Movable, Velocity, move, vel)
 import Rectangle (collideEdges, collideCorners)
-import Tangible (Tangible, Normal, Position, Radius, bottom, centre, colour, height
-                , left, right, top, width)
+import Tangible (Tangible, Normal, Position, Radius, bottom, centre, colour
+                ,height, left, right, top, width)
 import Vector ((^-^), (^/^), magVec)
 import Visible (Visible, render)
 
