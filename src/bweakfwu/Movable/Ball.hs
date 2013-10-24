@@ -21,14 +21,13 @@ import Control.Monad (msum)
 
 import Graphics.Gloss.Data.Color (Color)
 import Graphics.Gloss.Data.Picture (Picture (Color, Translate), circleSolid)
-import Graphics.Gloss.Data.Vector (magV)
 
 import Movable (Movable, Velocity, move, vel)
 import Movable.Paddle (Paddle)
 import Rectangle (Corner, corners)
 import Tangible (Tangible, Normal, Position, Radius, bottom, centre, colour, height
                 , left, right, top, width)
-import Vector ((^-^), (^/^))
+import Vector ((^-^), (^/^), magVec)
 import Visible (Visible, render)
 import Visible.Brick (Brick)
 
@@ -70,7 +69,7 @@ collidePaddles b p1 p2 =
 collideBall ::  Ball -> Ball -> Maybe Normal
 collideBall b1 b2 = if collisionP then Just normal else Nothing
   where distanceVector = centre b1 ^-^ centre b2
-        distance   = magV distanceVector
+        distance   = magVec distanceVector
         b1Radius   = width b1/2
         b2Radius   = width b2/2
         collisionP = distance < (b1Radius + b2Radius)
@@ -97,5 +96,5 @@ collideCorner b c =
     then Just (distanceVector ^/^ distance)
     else Nothing
   where distanceVector = c ^-^ centre b
-        distance       = magV distanceVector
+        distance       = magVec distanceVector
         ballRadius     = width b/2
