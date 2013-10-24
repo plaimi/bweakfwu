@@ -24,7 +24,7 @@ import Graphics.Gloss.Data.Picture (Picture (Color, Translate), circleSolid)
 
 import Movable (Movable, Velocity, move, vel)
 import Movable.Paddle (Paddle)
-import Rectangle (Corner, corners)
+import Rectangle (collideEdges, collideCorners)
 import Tangible (Tangible, Normal, Position, Radius, bottom, centre, colour, height
                 , left, right, top, width)
 import Vector ((^-^), (^/^), magVec)
@@ -67,34 +67,10 @@ collidePaddles b p1 p2 =
        f <- [collideEdges, collideCorners]]
 
 collideBall ::  Ball -> Ball -> Maybe Normal
-collideBall b1 b2 = if collisionP then Just normal else Nothing
-  where distanceVector = centre b1 ^-^ centre b2
-        distance   = magVec distanceVector
-        b1Radius   = width b1/2
-        b2Radius   = width b2/2
-        collisionP = distance < (b1Radius + b2Radius)
-        normal     = distanceVector ^/^ distance
-
-collideEdges ::  Tangible a => Ball -> a -> Maybe Normal
-collideEdges b p
-  | snd (centre b) < top p &&
-    snd (centre b) > bottom p &&
-    right b > left p &&
-    left b < right p = Just (signum (fst (centre p) - fst (centre b)) , 0.0)
-  | fst (centre b) < right p &&
-    fst (centre b) > left p &&
-    top b > bottom p &&
-    bottom b < top p = Just (0.0, signum (snd (centre p) - snd (centre b)))
-  | otherwise        = Nothing
-
-collideCorners ::  Tangible a => Ball -> a -> Maybe Normal
-collideCorners b p = msum (map (collideCorner b) (corners p))
-
-collideCorner ::  Ball -> Corner -> Maybe Normal
-collideCorner b c =
-  if distance < ballRadius
+collideBall b1 b2 =
+  if distance < ballRadii
     then Just (distanceVector ^/^ distance)
     else Nothing
-  where distanceVector = c ^-^ centre b
-        distance       = magVec distanceVector
-        ballRadius     = width b/2
+  where distanceVector = centre b1 ^-^ centre b2
+        distance   = magVec distanceVector
+        ballRadii  = width b1/2 + width b2/2

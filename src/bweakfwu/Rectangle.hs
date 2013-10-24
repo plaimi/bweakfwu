@@ -17,9 +17,12 @@
 - along with bwekfwu  If not, see <http://www.gnu.org/licenses/>.
 -} module Rectangle where
 
+import Control.Monad (msum)
+
 import Graphics.Gloss.Data.Point (Point)
 
-import Tangible (Tangible, bottom, left, right, top)
+import Tangible (Tangible, Normal, bottom, centre, left, right, top, width)
+import Vector ((^-^), (^/^), magVec)
 
 type Corner = Point
 type Edge   = Point
@@ -31,3 +34,27 @@ corners p =
   ,(left p, bottom p)
   ,(right p, top p)
   ,(right p, bottom p)]
+
+collideEdges ::  Tangible a => Tangible b => a -> b -> Maybe Normal
+collideEdges a b
+  | snd (centre a) < top b &&
+    snd (centre a) > bottom b &&
+    right a > left b &&
+    left a < right b = Just (signum (fst (centre b) - fst (centre a)) , 0.0)
+  | fst (centre a) < right b &&
+    fst (centre a) > left b &&
+    top a > bottom b &&
+    bottom a < top b = Just (0.0, signum (snd (centre b) - snd (centre a)))
+  | otherwise        = Nothing
+
+collideCorners ::  Tangible a => Tangible b => a -> b -> Maybe Normal
+collideCorners a b = msum (map (collideCorner a) (corners b))
+
+collideCorner ::  Tangible a => a -> Corner -> Maybe Normal
+collideCorner a c =
+  if distance < ballRadius
+    then Just (distanceVector ^/^ distance)
+    else Nothing
+  where distanceVector = c ^-^ centre a
+        distance       = magVec distanceVector
+        ballRadius     = width a/2
