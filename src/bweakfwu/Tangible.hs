@@ -17,11 +17,12 @@
 - along with bwekfwu  If not, see <http://www.gnu.org/licenses/>.
 -} module Tangible where
 
-import Graphics.Gloss
+import Graphics.Gloss.Data.Color (Color)
+import Graphics.Gloss.Data.Vector (Vector)
 
-import Movable
-import Vector
-import Visible
+import Movable (Velocity)
+import Vector ((^+^), (^*^), (^.^))
+import Visible (Visible)
 
 class (Visible a) => Tangible a where
   centre ::  a -> (Float, Float)

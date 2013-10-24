@@ -17,11 +17,12 @@
 - along with bwekfwu  If not, see <http://www.gnu.org/licenses/>.
 -}
 
-import Graphics.Gloss
+import Graphics.Gloss.Interface.Pure.Game (play)
+import Graphics.Gloss.Data.Color (black)
 
-import Handle
-import Window
-import World
+import Handle (handle)
+import Window (window)
+import World (bang, step, view)
 
 main ::  IO ()
 main =

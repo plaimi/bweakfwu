@@ -18,7 +18,7 @@
 - along with bwekfwu  If not, see <http://www.gnu.org/licenses/>.
 -} module Vector where
 
-import Graphics.Gloss.Data.Vector
+import Graphics.Gloss.Data.Vector (Vector, dotV, magV)
 
 vecOp :: (Float -> Float -> Float) -> Vector -> Vector -> Vector
 vecOp op (x1, y1) (x2, y2) = (op x1 x2, op y1 y2)

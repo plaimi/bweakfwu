@@ -18,10 +18,14 @@
 - along with bwekfwu  If not, see <http://www.gnu.org/licenses/>.
 -} module Handle where
 
-import Graphics.Gloss.Interface.Pure.Game
+import Graphics.Gloss.Interface.Pure.Game (Event (EventKey)
+                                          , Key (Char, SpecialKey)
+                                          , KeyState (Down)
+                                          , SpecialKey (KeyDown, KeyLeft
+                                                       , KeyUp))
 
-import Movable.Paddle
-import World
+import Movable.Paddle (react, Direction (U, D))
+import World (World (World), launchBall)
 
 handle :: Event -> World -> World
 -- Left paddle up

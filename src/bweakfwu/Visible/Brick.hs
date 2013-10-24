@@ -17,11 +17,14 @@
 - along with bwekfwu  If not, see <http://www.gnu.org/licenses/>.
 -} module Visible.Brick where
 
-import Graphics.Gloss
+import Graphics.Gloss.Data.Color (Color, mixColors, white)
+import Graphics.Gloss.Data.Picture (Picture (Color, Translate)
+                                   , rectangleSolid)
 
-import Rectangle
-import Tangible
-import Visible
+import Rectangle (RectangleSize)
+import Tangible (Tangible, Position, bottom, centre, colour, height, left
+                , right, top, width)
+import Visible (Visible, render)
 
 data Brick = Brick Position RectangleSize Health Color
 

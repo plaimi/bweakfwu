@@ -17,7 +17,7 @@
 - along with bwekfwu  If not, see <http://www.gnu.org/licenses/>.
 -} module Window where
 
-import Graphics.Gloss
+import Graphics.Gloss.Data.Display (Display (InWindow))
 
 window ::  Display
 --                Title      Size                        Position

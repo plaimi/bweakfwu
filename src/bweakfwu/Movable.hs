@@ -18,7 +18,7 @@
 - along with bwekfwu  If not, see <http://www.gnu.org/licenses/>.
 -} module Movable where
 
-import Graphics.Gloss
+import Graphics.Gloss.Data.Vector (Vector)
 
 class Movable a where
   vel    ::  a -> Velocity

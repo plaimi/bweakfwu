@@ -18,13 +18,17 @@
 - along with bwekfwu  If not, see <http://www.gnu.org/licenses/>.
 -} module Movable.Paddle where
 
-import Graphics.Gloss
+import Graphics.Gloss.Data.Color (Color)
+import Graphics.Gloss.Data.Picture (Picture (Color, Translate)
+                                   , rectangleSolid)
+import Graphics.Gloss.Data.Point (Point)
 
-import Movable
-import Rectangle
-import Tangible
-import Vector
-import Visible
+import Movable (Movable, Velocity, move, vel)
+import Rectangle (RectangleSize)
+import Tangible (Tangible, Acceleration, Position, Speed, bottom, centre
+                , colour, height, left, right, top, width)
+import Vector ((^+^), (^-^), (^*^), magVec)
+import Visible (Visible, render)
 
 data Paddle = Paddle Position RectangleSize Color Velocity Controls
 data Direction = U | D | L deriving (Eq)

@@ -17,9 +17,9 @@
 - along with bwekfwu  If not, see <http://www.gnu.org/licenses/>.
 -} module Rectangle where
 
-import Graphics.Gloss
+import Graphics.Gloss.Data.Point (Point)
 
-import Tangible
+import Tangible (Tangible, bottom, left, right, top)
 
 type Corner = Point
 type Edge   = Point

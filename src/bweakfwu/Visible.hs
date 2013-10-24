@@ -17,7 +17,7 @@
 - along with bwekfwu  If not, see <http://www.gnu.org/licenses/>.
 -} module Visible where
 
-import Graphics.Gloss
+import Graphics.Gloss.Data.Picture (Picture)
 
 class Visible a where
   render ::  a -> Picture

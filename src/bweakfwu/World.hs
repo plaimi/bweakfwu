@@ -18,20 +18,22 @@
 - along with bwekfwu  If not, see <http://www.gnu.org/licenses/>.
 -} module World where
 
-import Data.Maybe
+import Data.Maybe (fromMaybe)
 
-import Graphics.Gloss
+import Graphics.Gloss.Data.Color (magenta, white, yellow)
+import Graphics.Gloss.Data.Picture (Picture (Color, Pictures, Scale)
+                                   , rectangleWire)
 
-import Movable
-import Movable.Ball
-import Movable.Paddle
-import Tangible
-import Vector
-import Visible
-import Visible.ScoreKeeper
-import Visible.Board
-import Visible.Brick
-import Window
+import Movable (move)
+import Movable.Ball (Ball (Ball), collideBall, collideBrick, collidePaddles)
+import Movable.Paddle (Paddle (Paddle))
+import Tangible (centre, left, reflect, right)
+import Vector ((^+^), (^/^))
+import Visible (render)
+import Visible.ScoreKeeper (ScoreKeeper (ScoreKeeper), Score)
+import Visible.Board (Board (Board), brickBoard)
+import Visible.Brick (Brick (Brick))
+import Window (windowHeight, windowWidth)
 
 data World = World (Paddle, Paddle) (Ball, Ball) Board ScoreKeeper
 

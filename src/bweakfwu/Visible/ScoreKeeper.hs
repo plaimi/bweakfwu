@@ -17,9 +17,10 @@
 - along with bwekfwu  If not, see <http://www.gnu.org/licenses/>.
 -} module Visible.ScoreKeeper where
 
-import Graphics.Gloss
+import Graphics.Gloss.Data.Color (dark, cyan)
+import Graphics.Gloss.Data.Picture (Picture (Color, Scale, Text, Translate))
 
-import Visible
+import Visible (Visible, render)
 
 data ScoreKeeper = ScoreKeeper Score Score
 

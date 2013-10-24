@@ -17,10 +17,11 @@
 - along with bwekfwu  If not, see <http://www.gnu.org/licenses/>.
 -} module Visible.Board where
 
-import Graphics.Gloss
+import Graphics.Gloss.Data.Color (white)
+import Graphics.Gloss.Data.Picture (Picture (Pictures))
 
-import Visible
-import Visible.Brick
+import Visible (Visible, render)
+import Visible.Brick (Brick (Brick))
 
 data Board = Board [Brick]
 
