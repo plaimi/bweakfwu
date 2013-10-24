@@ -39,7 +39,6 @@ type Height = Float
 type Radius = Float
 type Position = (Width, Height)
 type Normal = Vector
-type TargetVelocity = Velocity
 type Speed = Float
 type Acceleration = Float
 
