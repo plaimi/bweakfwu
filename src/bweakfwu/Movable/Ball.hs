@@ -23,13 +23,11 @@ import Graphics.Gloss.Data.Color (Color)
 import Graphics.Gloss.Data.Picture (Picture (Color, Translate), circleSolid)
 
 import Movable (Movable, Velocity, move, vel)
-import Movable.Paddle (Paddle)
 import Rectangle (collideEdges, collideCorners)
 import Tangible (Tangible, Normal, Position, Radius, bottom, centre, colour, height
                 , left, right, top, width)
 import Vector ((^-^), (^/^), magVec)
 import Visible (Visible, render)
-import Visible.Brick (Brick)
 
 
 data Ball = Ball Position Radius Color Velocity
@@ -55,15 +53,10 @@ instance Movable Ball where
 
   move (Ball (x, y) c r v) t = Ball (x + fst v * t, y + snd v * t) c r v
 
-collideBrick ::  Ball -> Brick -> Maybe (Normal, Velocity)
-collideBrick b brick =
-  msum [fmap (flip (,) 0) (f b brick) |
-       f <- [collideEdges, collideCorners]]
-
-collidePaddles ::  Ball -> Paddle -> Paddle -> Maybe (Normal, Velocity)
-collidePaddles b p1 p2 =
-  msum [fmap (flip (,) (vel p)) (f b p) |
-       p <- [p1, p2],
+collideRectangle ::
+  Tangible a => Ball -> a -> Velocity -> Maybe (Normal, Velocity)
+collideRectangle b r v =
+  msum [fmap (flip (,) v) (f b r) |
        f <- [collideEdges, collideCorners]]
 
 collideBall ::  Ball -> Ball -> Maybe Normal

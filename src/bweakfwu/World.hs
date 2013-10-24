@@ -18,14 +18,15 @@
 - along with bwekfwu  If not, see <http://www.gnu.org/licenses/>.
 -} module World where
 
+import Control.Applicative ((<|>))
 import Data.Maybe (fromMaybe)
 
 import Graphics.Gloss.Data.Color (magenta, white, yellow)
 import Graphics.Gloss.Data.Picture (Picture (Color, Pictures, Scale)
                                    , rectangleWire)
 
-import Movable (move)
-import Movable.Ball (Ball (Ball), collideBall, collideBrick, collidePaddles)
+import Movable (move, vel)
+import Movable.Ball (Ball (Ball), collideBall, collideRectangle)
 import Movable.Paddle (Paddle (Paddle))
 import Tangible (centre, left, reflect, right)
 import Vector ((^+^), (^/^))
@@ -163,7 +164,9 @@ reflectPaddles b@(Ball p r c v) p1 p2 =
   case cNormal of
     0 -> b
     _ -> Ball p r c (reflect cNormal v cVel)
-  where (cNormal, cVel) = fromMaybe (0, 0) (collidePaddles b p1 p2)
+  where (cNormal, cVel) = fromMaybe (0, 0) (collideRectangle b p1 (vel p1)
+                                        <|> collideRectangle b p2 (vel p2))
+
 
 reflectBricks ::  Ball -> Ball -> Board -> ((Ball, Ball), Board, ScoreKeeper)
 reflectBricks b1 b2 (Board bricks)  =
@@ -187,7 +190,7 @@ reflectBrick ball@(Ball p1 r c v) brick@(Brick p2 s h _) =
          ,if h - 1 > 0
             then Just (Brick p2 s (h - 1) c)
             else Nothing)
-  where (cNormal, cVel) = fromMaybe (0, 0) (collideBrick ball brick)
+  where (cNormal, cVel) = fromMaybe (0, 0) (collideRectangle ball brick 0)
 
 
 reflectBalls ::  Ball -> Ball -> (Ball, Ball)
