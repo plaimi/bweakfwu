@@ -37,7 +37,7 @@ Game World
 ==========
 
 The game world consists of:
-    -A board with 15*15 bricks.
+    -A board with 15*7 bricks.
     -Two paddles, one on each short-end (left and right, respective to the
         screen). Each paddle owns a ball.
     -An on-screen-display
