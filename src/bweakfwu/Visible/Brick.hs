@@ -26,9 +26,10 @@ import Tangible (Tangible, Position, bottom, centre, colour, height, left
                 , right, top, width)
 import Visible (Visible, render)
 
-data Brick = Brick Position RectangleSize Health Color
+data Brick = Brick Position RectangleSize Health MaxHealth Color
 
 type Health = Int
+type MaxHealth = Int
 
 instance Visible Brick where
   render b =
@@ -37,14 +38,30 @@ instance Visible Brick where
     $ rectangleSolid (width b) (height b)
 
 instance Tangible Brick where
-  centre (Brick (x, y) _ _ _)       = (x, y)
-  left (Brick (x, _) (w, _) _ _)    = x - w / 2.0
-  right (Brick (x, _) (w, _) _ _)   = x + w / 2
-  top (Brick (_, y) (_, h) _ _)     = y + h / 2.0
-  bottom (Brick (_, y) (_, h) _ _)  = y - h / 2.0
-  width (Brick _ (w, _) _ _)        = w
-  height (Brick _ (_, h) _ _)       = h
-  colour (Brick _ _ _ c)            = c
+  centre (Brick (x, y) _ _ _ _)       = (x, y)
+  left (Brick (x, _) (w, _) _ _ _)    = x - w / 2.0
+  right (Brick (x, _) (w, _) _ _ _)   = x + w / 2
+  top (Brick (_, y) (_, h) _ _ _)     = y + h / 2.0
+  bottom (Brick (_, y) (_, h) _ _ _)  = y - h / 2.0
+  width (Brick _ (w, _) _ _ _)        = w
+  height (Brick _ (_, h) _ _ _)       = h
+  colour (Brick _ _ _ _ c)            = c
 
 health ::  Brick -> Health
-health (Brick _ _ h _) = h
+health (Brick _ _ h _ _) = h
+
+maxHealth ::  Brick -> Health
+maxHealth (Brick _ _ _ h _) = h
+
+updateBrick ::  Brick -> Color -> Maybe Brick
+updateBrick (Brick p s h maxH c) col =
+  if h' > 1
+    then Just (Brick p s h' maxH c')
+    else Nothing
+  where h' = if c == white || c == col
+               then h - 1
+               else h + 1
+        c'
+          | c == white = col
+          | maxH == h' = white
+          | otherwise  = c

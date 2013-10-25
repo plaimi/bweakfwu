@@ -60,7 +60,7 @@ When the ball collides with something, hit.flac is played.
 Board
 =====
 
-The board has 15*15 bricks. The bricks have health depending on how close to 
+The board has 15*7 bricks. The bricks have health depending on how close to
 the middle they are (9 / how far from the centre the column is). The bricks 
 are 1 x 3 cells.
 

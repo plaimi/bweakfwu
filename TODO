@@ -6,11 +6,6 @@ advanced gameplay elements
     forward, with a slight bounce.
   -tilt paddle
     tilt paddle to hit ball, like in pinball games.
-  -brick ownership, bricks change colours/health based on who hits it
-    when a paddle hits a neutral (white) brick, the brick starts getting the
-    paddle's colour (like present gameplay) and loses a hit point. when a
-    paddle hits a brick owned by the other paddle, the brick gains a hit point
-    and thereby loses a bit of the opposing paddle's colour.
   -gravitation
     simple gravitation where the objects have gravitational mass that affects
     the balls.
