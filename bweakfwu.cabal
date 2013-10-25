@@ -13,11 +13,13 @@ Executable bweakfwu
            ghc-options: -O2 -threaded
            hs-source-dirs: src src/bweakfwu
            other-modules: Handle
+                          Mathema
                           Movable
                           Movable.Ball
                           Movable.Paddle
                           Rectangle
                           Tangible
+                          Time
                           Vector
                           Visible
                           Visible.ScoreKeeper

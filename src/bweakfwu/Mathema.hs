@@ -1,5 +1,4 @@
 {-
-- Copyright (C) 2013 Alexander Berntsen <alexander@plaimi.net>
 - Copyright (C) 2013 Stian Ellingsen <stian@plaimi.net>
 -
 - This file is part of bweakfwu
@@ -16,23 +15,9 @@
 -
 - You should have received a copy of the GNU General Public License
 - along with bwekfwu  If not, see <http://www.gnu.org/licenses/>.
--} module Movable where
+-} module Mathema where
 
-import Graphics.Gloss.Data.Vector (Vector)
-
-import Time (StepTime)
-import Vector ((^+^), (^-^), vecLimitMag)
-
-class Movable a where
-  vel          ::  a -> Velocity
-  move         ::  a -> StepTime -> a
-  targetVel    ::  a -> Velocity
-  acceleration ::  a -> Acceleration
-
-updateVelocity ::  Movable a => a -> StepTime -> Velocity
-updateVelocity m dt = vel m ^+^ vecLimitMag (dt * acceleration m) dv
-  where dv = targetVel m ^-^ vel m
-
-type Acceleration = Float
-type Speed = Float
-type Velocity = Vector
+magApply ::  (Float -> Float) -> Float -> Float
+magApply f x =
+  let sig = signum x
+  in  sig * f (sig * x)

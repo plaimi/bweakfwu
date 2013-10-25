@@ -29,6 +29,7 @@ import Movable (move, vel)
 import Movable.Ball (Ball (Ball), collideBall, collideRectangle)
 import Movable.Paddle (Paddle (Paddle))
 import Tangible (centre, left, reflect, right)
+import Time (StepTime)
 import Vector ((^+^), (^/^))
 import Visible (render)
 import Visible.ScoreKeeper (ScoreKeeper (ScoreKeeper), Score)
@@ -37,8 +38,6 @@ import Visible.Brick (Brick (Brick))
 import Window (windowHeight, windowWidth)
 
 data World = World (Paddle, Paddle) (Ball, Ball) Board ScoreKeeper
-
-type StepTime = Float
 
 bang ::  World
 bang =

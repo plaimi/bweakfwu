@@ -48,3 +48,9 @@ infixl 7 ^*^
 
 magVec ::  Vector -> Float
 magVec = magV
+
+vecLimitMag ::  Float -> Vector -> Vector
+vecLimitMag maxMag v
+  | m > maxMag = v ^*^ (maxMag / m)
+  | otherwise  = v
+  where m = magVec v
