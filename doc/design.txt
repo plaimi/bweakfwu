@@ -55,7 +55,9 @@ black.
 Bricks
 ------
 Bricks are destructible 1 x 3 cell pieces on the board. The actors are awarded 
-one point each time they hit a brick with their ball.
+one point each time they hit a brick with their ball. Bricks take on the
+colour of the ball that hits them. They lose hit points when a ball of the
+same colour hits them.
 
 Paddles
 -------

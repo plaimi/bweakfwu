@@ -33,7 +33,7 @@ import Vector ((^+^), (^/^))
 import Visible (render)
 import Visible.ScoreKeeper (ScoreKeeper (ScoreKeeper), Score)
 import Visible.Board (Board (Board), brickBoard)
-import Visible.Brick (Brick (Brick))
+import Visible.Brick (Brick (Brick), updateBrick)
 import Window (windowHeight, windowWidth)
 
 data World = World (Paddle, Paddle) (Ball, Ball) Board ScoreKeeper
@@ -175,21 +175,23 @@ reflectBricks b1 b2 (Board bricks)  =
         (b2', b2bricks, s2) = reflectBricksWithBall b2 b1bricks
 
 reflectBricksWithBall ::  Ball -> [Brick] -> (Ball, [Brick], Score)
-reflectBricksWithBall b bs = (b', bs', sumhealth bs - sumhealth bs')
-  where f (ball, Nothing) acc    = (ball, acc)
-        f (ball, Just brick) acc = (ball, brick : acc)
-        (b', bs') = foldr (\x acc -> f (reflectBrick (fst acc) x) (snd acc))
-                          (b, []) bs
-        sumhealth = sum . map (\(Brick _ _ h _) -> h)
+reflectBricksWithBall b bs = (b', bs', s)
+  where
+    (b', bs')                = foldr (\x acc -> f
+                                      (reflectBrick (fst acc) x) (snd acc))
+                                                                 (b, []) bs
+    f (ball, Nothing) acc    = (ball, acc)
+    f (ball, Just brick) acc = (ball, brick : acc)
+    sumF                     = sum . map (\(Brick _ _ h _ _) -> h)
+    sumH                = sumF bs
+    sumH'               = sumF bs'
+    s                        = max sumH sumH' - min sumH sumH'
 
 reflectBrick ::  Ball -> Brick -> (Ball, Maybe Brick)
-reflectBrick ball@(Ball p1 r c v) brick@(Brick p2 s h _) =
+reflectBrick ball@(Ball p1 r c v) brick =
   case cNormal of
     0 -> (ball, Just brick)
-    _ -> (Ball p1 r c (reflect cNormal v cVel)
-         ,if h - 1 > 0
-            then Just (Brick p2 s (h - 1) c)
-            else Nothing)
+    _ -> (Ball p1 r c (reflect cNormal v cVel), updateBrick brick c)
   where (cNormal, cVel) = fromMaybe (0, 0) (collideRectangle ball brick 0)
 
 

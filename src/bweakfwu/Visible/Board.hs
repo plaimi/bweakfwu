@@ -40,7 +40,7 @@ brickBoard w h = brickColumns l b nColumns nRows hSpace vSpace
 brickColumn ::  Int -> Int -> Int -> Int -> [Brick]
 brickColumn _ _ 0 _ = []
 brickColumn x b nRows distance =
-  Brick (fromIntegral x, fromIntegral b) (1, 3) hp white
+  Brick (fromIntegral x, fromIntegral b) (1, 3) hp hp white
   : brickColumn x (b + distance) (nRows - 1) distance
   where hp = if x == 0
                then 10
