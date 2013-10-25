@@ -23,12 +23,13 @@ import Control.Monad (msum)
 import Graphics.Gloss.Data.Color (Color)
 import Graphics.Gloss.Data.Picture (Picture (Color, Translate), circleSolid)
 
-import Movable (Movable, Velocity, acceleration, move, targetVel
+import Mathema (magApply)
+import Movable (Movable, Speed, Velocity, acceleration, move, targetVel
                ,updateVelocity, vel)
 import Rectangle (collideEdges, collideCorners)
 import Tangible (Tangible, Normal, Position, Radius, bottom, centre, colour
                 ,height, left, right, top, width)
-import Vector ((^-^), (^/^), magVec)
+import Vector ((^-^), (^/^), magVec, vecLimitMag)
 import Visible (Visible, render)
 
 data Ball = Ball Position Radius Color Velocity
@@ -55,9 +56,12 @@ instance Movable Ball where
   move b@(Ball (x, y) c r v) t =
     Ball (x + fst v * t, y + snd v * t) c r (updateVelocity b t)
 
-  targetVel = vel
+  targetVel b = vecLimitMag maxSpeed (tvx, tvy)
+    where tvx      = magApply (max minHSpeed) vx
+          tvy      = magApply (max minVSpeed) vy
+          (vx, vy) = vel b
 
-  acceleration _ = 0
+  acceleration = (* accelFactor) . magVec . vel
 
 collideRectangle ::
   Tangible a => Ball -> a -> Velocity -> Maybe (Normal, Velocity)
@@ -73,3 +77,15 @@ collideBall b1 b2 =
   where distanceVector = centre b1 ^-^ centre b2
         distance   = magVec distanceVector
         ballRadii  = width b1/2 + width b2/2
+
+maxSpeed ::  Speed
+maxSpeed = 150.0
+
+minHSpeed ::  Speed
+minHSpeed = 5.0
+
+minVSpeed ::  Speed
+minVSpeed = 1.0
+
+accelFactor ::  Float
+accelFactor = 1.0 / 5.0
