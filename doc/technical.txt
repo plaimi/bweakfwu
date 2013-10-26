@@ -42,7 +42,7 @@ Ball
 The ball is placed vertically centred by the paddle of its owner.
 
 The balls test for collisions on the screen edges, the paddles, each other and 
-on the bricks..
+on the bricks.
 
 When the ball collides with the top or bottom screen edge its vertical 
 velocity becomes negated.
@@ -63,6 +63,25 @@ Board
 The board has 15*7 bricks. The bricks have health depending on how close to
 the middle they are (9 / how far from the centre the column is). The bricks 
 are 1 x 3 cells.
+
+Bricks
+------
+Bricks have hit points that are calculated using a logarithmic function which
+results in the bricks having more hit points the closer they are to the middle
+of the board.
+
+Hitting a white (unowned) brick with a ball makes the brick take on that
+ball's colour.
+
+If a coloured (owned) brick is hit by a ball with the same colour (the owner),
+the brick's colour becomes more solid. When the colour is completely solid,
+the brick shatters and the owner is awarded with points equal to the brick's
+maximum health squared.
+
+If a coloured (owned) brick is hit by a ball by a different colour (a
+challenger), the brick loses some of its colour, eventually becoming white
+(unowned) again.
+
 
 On-Screen-Display
 -----------------

@@ -181,10 +181,13 @@ reflectBricksWithBall b bs = (b', bs', s)
                                                                  (b, []) bs
     f (ball, Nothing) acc    = (ball, acc)
     f (ball, Just brick) acc = (ball, brick : acc)
-    sumF                     = sum . map (\(Brick _ _ h _ _) -> h)
-    sumH                = sumF bs
-    sumH'               = sumF bs'
-    s                        = max sumH sumH' - min sumH sumH'
+    -- Find the max health of all the bricks and sum them.
+    sumF                     = sum . map (\(Brick _ _ _ mh _) -> mh)
+    sumH                     = sumF bs
+    sumH'                    = sumF bs'
+    -- If the max health has gone down, this means a brick has been removed.
+    -- Award the responsible player with maxHealh^2 points.
+    s                        = (sumH - sumH')^(2 :: Int)
 
 reflectBrick ::  Ball -> Brick -> (Ball, Maybe Brick)
 reflectBrick ball@(Ball p1 r c v) brick =

@@ -76,7 +76,9 @@ Rules
 The object of the game is to hit the bricks on the board and then to make the 
 balls hit the screen edge behind the opponent actor's paddle.
 
-If a paddle's ball hits a brick its actor gets a point.
+Hitting a brick makes it owned by the player that hits it. The brick gradually
+takes on the colour of the player that hit it, and eventually shatters when it
+becomes completely solid.
 
 If a paddle's ball hits the opponent paddle's screen edge, the paddle's actor 
 gets 50 points.
