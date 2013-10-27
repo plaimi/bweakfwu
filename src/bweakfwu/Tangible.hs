@@ -18,11 +18,12 @@
 -} module Tangible where
 
 import Graphics.Gloss.Data.Color (Color)
-import Graphics.Gloss.Data.Vector (Vector)
 
+import Shape (Shape, Height, Width)
 import Visible (Visible)
 
 class (Visible a) => Tangible a where
+  shape  ::  a -> Shape
   centre ::  a -> (Float, Float)
   left   ::  a -> Float
   right  ::  a -> Float
@@ -32,8 +33,4 @@ class (Visible a) => Tangible a where
   height ::  a -> Float
   colour ::  a -> Color
 
-type Width = Float
-type Height = Float
-type Radius = Float
 type Position = (Width, Height)
-type Normal = Vector

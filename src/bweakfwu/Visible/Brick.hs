@@ -21,12 +21,12 @@ import Graphics.Gloss.Data.Color (Color, mixColors, white)
 import Graphics.Gloss.Data.Picture (Picture (Color, Translate)
                                    , rectangleSolid)
 
-import Rectangle (RectangleSize)
+import Shape (Shape (AARect), Height, Width)
 import Tangible (Tangible, Position, bottom, centre, colour, height, left
-                , right, top, width)
+                ,right, shape, top, width)
 import Visible (Visible, render)
 
-data Brick = Brick Position RectangleSize Health MaxHealth Color
+data Brick = Brick Position (Width, Height) Health MaxHealth Color
 
 type Health = Int
 type MaxHealth = Int
@@ -38,6 +38,7 @@ instance Visible Brick where
     $ rectangleSolid (width b) (height b)
 
 instance Tangible Brick where
+  shape (Brick _ (w, h) _ _ _)        = AARect w h
   centre (Brick (x, y) _ _ _ _)       = (x, y)
   left (Brick (x, _) (w, _) _ _ _)    = x - w / 2.0
   right (Brick (x, _) (w, _) _ _ _)   = x + w / 2

@@ -21,3 +21,6 @@ magApply ::  (Float -> Float) -> Float -> Float
 magApply f x =
   let sig = signum x
   in  sig * f (sig * x)
+
+clamp ::  Float -> Float -> Float -> Float
+clamp low high = max low . min high

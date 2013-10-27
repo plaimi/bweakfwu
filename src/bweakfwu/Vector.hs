@@ -54,3 +54,8 @@ vecLimitMag maxMag v
   | m > maxMag = v ^*^ (maxMag / m)
   | otherwise  = v
   where m = magVec v
+
+vecNorm ::  Vector -> Vector
+vecNorm v
+  | v == (0, 0) = v
+  | otherwise = v ^*^ (1 / magVec v)

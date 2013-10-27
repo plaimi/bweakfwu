@@ -18,18 +18,16 @@
 - along with bwekfwu  If not, see <http://www.gnu.org/licenses/>.
 -} module Movable.Ball where
 
-import Control.Monad (msum)
-
 import Graphics.Gloss.Data.Color (Color)
 import Graphics.Gloss.Data.Picture (Picture (Color, Translate), circleSolid)
 
 import Mathema (magApply)
 import Movable (Movable, Speed, Velocity, acceleration, move, targetVel
                ,updateVelocity, vel)
-import Rectangle (collideEdges, collideCorners)
-import Tangible (Tangible, Normal, Position, Radius, bottom, centre, colour
-                ,height, left, right, top, width)
-import Vector ((^-^), (^/^), magVec, vecLimitMag)
+import Shape (Shape (Circle), Normal, Radius, intersect)
+import Tangible (Tangible, Position, bottom, centre, colour
+                ,height, left, right, shape, top, width)
+import Vector ((^-^), magVec, vecLimitMag)
 import Visible (Visible, render)
 
 data Ball = Ball Position Radius Color Velocity
@@ -41,6 +39,7 @@ instance Visible Ball where
     $ circleSolid r
 
 instance Tangible Ball where
+  shape (Ball _ r _ _)       = Circle r
   centre (Ball p _ _ _)      = p
   left (Ball (x, _) r _ _)   = x - r
   right (Ball (x, _) r _ _)  = x + r
@@ -65,18 +64,11 @@ instance Movable Ball where
 
 collideRectangle ::
   Tangible a => Ball -> a -> Velocity -> Maybe (Normal, Velocity)
-collideRectangle b r v =
-  msum [fmap (flip (,) v) (f b r) |
-       f <- [collideEdges, collideCorners]]
+collideRectangle b r v = maybe Nothing (\n -> Just (n, v)) mn
+  where mn = intersect (shape b) (shape r) (centre r ^-^ centre b)
 
 collideBall ::  Ball -> Ball -> Maybe Normal
-collideBall b1 b2 =
-  if distance < ballRadii
-    then Just (distanceVector ^/^ distance)
-    else Nothing
-  where distanceVector = centre b1 ^-^ centre b2
-        distance   = magVec distanceVector
-        ballRadii  = width b1/2 + width b2/2
+collideBall b1 b2 = intersect (shape b2) (shape b1) (centre b1 ^-^ centre b2)
 
 maxSpeed ::  Speed
 maxSpeed = 150.0

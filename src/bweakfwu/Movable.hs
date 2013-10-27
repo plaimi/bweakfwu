@@ -21,7 +21,7 @@
 import Graphics.Gloss.Data.Vector (Vector)
 
 import Time (StepTime)
-import Tangible (Normal)
+import Shape (Normal)
 import Vector ((^+^), (^-^), (^*^), (^.^), vecLimitMag)
 
 class Movable a where
