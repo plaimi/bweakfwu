@@ -28,27 +28,27 @@ import Movable.Paddle (react, Direction (U, D))
 import World (World (World), launchBall)
 
 handle :: Event -> World -> World
--- Left paddle up
+-- Left paddle up.
 handle (EventKey (SpecialKey KeyUp) state _ _) (World (p1, p2) b bs s) =
   World (p1, react p2 (U, state == Down)) b bs s
 
--- Left paddle down
+-- Left paddle down.
 handle (EventKey (SpecialKey KeyDown) state _ _) (World (p1, p2) b bs s) =
   World (p1, react p2 (D, state == Down)) b bs s
 
--- Right paddle up
+-- Right paddle up.
 handle (EventKey (Char 'u') state _ _) (World (p1, p2) b bs s) =
   World (react p1 (U, state == Down), p2) b bs s
 
--- Right paddle down
+-- Right paddle down.
 handle (EventKey (Char 'j') state _ _) (World (p1, p2) b bs s) =
   World (react p1 (D, state == Down), p2) b bs s
 
--- Left paddle launch ball
+-- Left paddle launch ball.
 handle (EventKey (Char 'k') Down _ _) (World p@(p1, _) (b1, b2) bs s) =
   World p (launchBall b1 p1, b2) bs s
 
--- Right paddle launch ball
+-- Right paddle launch ball.
 handle (EventKey (SpecialKey KeyLeft) Down _ _) (World p@(_, p2) (b1, b2) bs s) =
   World p (b1, launchBall b2 p2) bs s
 

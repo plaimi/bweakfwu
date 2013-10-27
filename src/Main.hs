@@ -27,10 +27,10 @@ import World (bang, step, view)
 main ::  IO ()
 main =
   play
-  window -- The display mode
-  black  -- The background colour
-  600    -- The number of simulation steps per second
-  bang   -- Create initial world
-  view   -- Convert the world to a picture
-  handle -- Handle input
-  step   -- Step the world one iteration
+  window -- The display mode.
+  black  -- The background colour.
+  600    -- The number of simulation steps per second.
+  bang   -- Create initial world.
+  view   -- Convert the world to a picture.
+  handle -- Handle input.
+  step   -- Step the world one iteration.
