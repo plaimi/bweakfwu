@@ -47,5 +47,5 @@ reflect n v w =
         dv    = w - v           -- Relative velocity between colliders.
         dc    = dv ^*^ (1 + k)  -- Collision delta as if head-on crash.
         dvn   = n ^.^ dc        -- Velocity delta on collision normal
-        dvn'  = min 0 dvn       -- Sanitation of dvn
+        dvn'  = max 0 dvn       -- Sanitation of dvn
         dvn'n = n ^*^ dvn'      -- Vectorificationing of dvn

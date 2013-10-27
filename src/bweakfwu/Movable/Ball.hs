@@ -24,10 +24,10 @@ import Graphics.Gloss.Data.Picture (Picture (Color, Translate), circleSolid)
 import Mathema (magApply)
 import Movable (Movable, Speed, Velocity, acceleration, move, targetVel
                ,updateVelocity, vel)
-import Shape (Shape (Circle), Normal, Radius, intersect)
+import Shape (Shape (Circle), Radius)
 import Tangible (Tangible, Position, bottom, centre, colour
                 ,height, left, right, shape, top, width)
-import Vector ((^-^), magVec, vecLimitMag)
+import Vector (magVec, vecLimitMag)
 import Visible (Visible, render)
 
 data Ball = Ball Position Radius Color Velocity
@@ -61,14 +61,6 @@ instance Movable Ball where
           (vx, vy) = vel b
 
   acceleration = (* accelFactor) . magVec . vel
-
-collideRectangle ::
-  Tangible a => Ball -> a -> Velocity -> Maybe (Normal, Velocity)
-collideRectangle b r v = maybe Nothing (\n -> Just (n, v)) mn
-  where mn = intersect (shape b) (shape r) (centre r ^-^ centre b)
-
-collideBall ::  Ball -> Ball -> Maybe Normal
-collideBall b1 b2 = intersect (shape b2) (shape b1) (centre b1 ^-^ centre b2)
 
 maxSpeed ::  Speed
 maxSpeed = 150.0

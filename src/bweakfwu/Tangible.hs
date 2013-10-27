@@ -1,5 +1,6 @@
 {-
 - Copyright (C) 2013 Alexander Berntsen <alexander@plaimi.net>
+- Copyright (C) 2013 Stian Ellingsen <stian@plaimi.net>
 -
 - This file is part of bweakfwu
 -
@@ -19,7 +20,8 @@
 
 import Graphics.Gloss.Data.Color (Color)
 
-import Shape (Shape, Height, Width)
+import Shape (Shape, Height, Normal, Width, intersect)
+import Vector ((^-^))
 import Visible (Visible)
 
 class (Visible a) => Tangible a where
@@ -34,3 +36,6 @@ class (Visible a) => Tangible a where
   colour ::  a -> Color
 
 type Position = (Width, Height)
+
+collide ::  (Tangible a, Tangible b) => a -> b -> Maybe Normal
+collide a b = intersect (shape a) (shape b) (centre b ^-^ centre a)
