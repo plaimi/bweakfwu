@@ -1,5 +1,6 @@
 {-
 - Copyright (C) 2013 Alexander Berntsen <alexander@plaimi.net>
+- Copyright (C) 2013 Stian Ellingsen <stian@plaimi.net>
 -
 - This file is part of bweakfwu
 -
@@ -18,11 +19,13 @@
 -} module Tangible where
 
 import Graphics.Gloss.Data.Color (Color)
-import Graphics.Gloss.Data.Vector (Vector)
 
+import Shape (Shape, Height, Normal, Width, intersect)
+import Vector ((^-^))
 import Visible (Visible)
 
 class (Visible a) => Tangible a where
+  shape  ::  a -> Shape
   centre ::  a -> (Float, Float)
   left   ::  a -> Float
   right  ::  a -> Float
@@ -32,8 +35,7 @@ class (Visible a) => Tangible a where
   height ::  a -> Float
   colour ::  a -> Color
 
-type Width = Float
-type Height = Float
-type Radius = Float
 type Position = (Width, Height)
-type Normal = Vector
+
+collide ::  (Tangible a, Tangible b) => a -> b -> Maybe Normal
+collide a b = intersect (shape a) (shape b) (centre b ^-^ centre a)

@@ -25,12 +25,12 @@ import Graphics.Gloss.Data.Point (Point)
 
 import Movable (Movable, Speed, Velocity, acceleration, move, vel, targetVel
                ,updateVelocity)
-import Rectangle (RectangleSize)
+import Shape (Shape (AARect), Height, Width)
 import Tangible (Tangible, Position, bottom, centre
-                , colour, height, left, right, top, width)
+                , colour, height, left, right, shape, top, width)
 import Visible (Visible, render)
 
-data Paddle = Paddle Position RectangleSize Color Velocity Controls
+data Paddle = Paddle Position (Width, Height) Color Velocity Controls
 data Direction = U | D | L deriving (Eq)
 
 type Controls = (Bool, Bool, Bool)
@@ -44,7 +44,8 @@ instance Visible Paddle where
     $ rectangleSolid (width p) (height p)
 
 instance Tangible Paddle where
-  centre (Paddle (x, y) _ _ _ _) = (x, y)
+  shape (Paddle _ (w, h) _ _ _)       = AARect w h
+  centre (Paddle (x, y) _ _ _ _)      = (x, y)
   left (Paddle (x, _) (w, _) _ _ _)   = x - w / 2.0
   right (Paddle (x, _) (w, _) _ _ _)  = x + w / 2
   top (Paddle (_, y) (_, h) _ _ _)    = y + h / 2.0

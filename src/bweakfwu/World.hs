@@ -18,17 +18,16 @@
 - along with bwekfwu  If not, see <http://www.gnu.org/licenses/>.
 -} module World where
 
-import Control.Applicative ((<|>))
-import Data.Maybe (fromMaybe)
+import Control.Applicative ((<$>), (<|>))
 
 import Graphics.Gloss.Data.Color (magenta, white, yellow)
 import Graphics.Gloss.Data.Picture (Picture (Color, Pictures, Scale)
                                    , rectangleWire)
 
 import Movable (move, reflect, vel)
-import Movable.Ball (Ball (Ball), collideBall, collideRectangle)
+import Movable.Ball (Ball (Ball))
 import Movable.Paddle (Paddle (Paddle))
-import Tangible (centre, left, right)
+import Tangible (centre, collide, left, right)
 import Time (StepTime)
 import Vector ((^+^), (^/^))
 import Visible (render)
@@ -101,8 +100,8 @@ clampPaddles (p1, p2) = (clampPaddle p1, clampPaddle p2)
 
 clampPaddle ::  Paddle -> Paddle
 clampPaddle p@(Paddle (x, y) (w, h) c vv tv)
-  | upTestBounds(y, hh)   = Paddle (x, hw - hh) (w, h) c (vv' (0, 1)) tv
-  | downTestBounds(y, hh) = Paddle (x, -hw + hh) (w, h) c (vv' (0, -1)) tv
+  | upTestBounds(y, hh)   = Paddle (x, hw - hh) (w, h) c (vv' (0, -1)) tv
+  | downTestBounds(y, hh) = Paddle (x, -hw + hh) (w, h) c (vv' (0, 1)) tv
   | otherwise             = p
   where vv' n = reflect n vv 0
         hh    = h/2
@@ -160,12 +159,9 @@ mergeScores (ScoreKeeper s s2) (ScoreKeeper ss ss2) (ScoreKeeper sss sss2) =
 
 reflectPaddles ::  Ball -> Paddle -> Paddle -> Ball
 reflectPaddles b@(Ball p r c v) p1 p2 =
-  case cNormal of
-    0 -> b
-    _ -> Ball p r c (reflect cNormal v cVel)
-  where (cNormal, cVel) = fromMaybe (0, 0) (collideRectangle b p1 (vel p1)
-                                        <|> collideRectangle b p2 (vel p2))
-
+  maybe b new (test p1 <|> test p2)
+  where test pad     = (\n -> (n, vel pad)) <$> collide pad b
+        new (cn, cv) = Ball p r c (reflect cn v cv)
 
 reflectBricks ::  Ball -> Ball -> Board -> ((Ball, Ball), Board, ScoreKeeper)
 reflectBricks b1 b2 (Board bricks)  =
@@ -191,20 +187,16 @@ reflectBricksWithBall b bs = (b', bs', s)
 
 reflectBrick ::  Ball -> Brick -> (Ball, Maybe Brick)
 reflectBrick ball@(Ball p1 r c v) brick =
-  case cNormal of
-    0 -> (ball, Just brick)
-    _ -> (Ball p1 r c (reflect cNormal v cVel), updateBrick brick c)
-  where (cNormal, cVel) = fromMaybe (0, 0) (collideRectangle ball brick 0)
+  maybe (ball, Just brick) new (collide brick ball)
+  where new n = (Ball p1 r c (reflect n v 0), updateBrick brick c)
 
 
 reflectBalls ::  Ball -> Ball -> (Ball, Ball)
 reflectBalls b1@(Ball p1 r1 c1 v1) b2@(Ball p2 r2 c2 v2) =
-  case cNormal of
-    0  -> (b1, b2)
-    _  -> (Ball p1 r1 c1 (reflect (negate cNormal) v1 avVel)
-          , Ball p2 r2 c2 (reflect cNormal v2 avVel))
-    where cNormal = fromMaybe 0 (collideBall b1 b2)
-          avVel   = (v1 ^+^ v2) ^/^ 2
+  maybe (b1, b2) new (collide b1 b2)
+    where new n = (Ball p1 r1 c1 (reflect (negate n) v1 avVel)
+                  ,Ball p2 r2 c2 (reflect n v2 avVel))
+          avVel = (v1 ^+^ v2) ^/^ 2
 
 leftTestBounds ::  (Float, Float) -> Bool
 leftTestBounds (a, b) = a <= (-worldWidth/2) + b/2

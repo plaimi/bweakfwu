@@ -17,7 +17,7 @@ Executable bweakfwu
                           Movable
                           Movable.Ball
                           Movable.Paddle
-                          Rectangle
+                          Shape
                           Tangible
                           Time
                           Vector
