@@ -20,7 +20,7 @@
 import Graphics.Gloss.Data.Vector (Vector)
 
 import Mathema (clamp)
-import Vector ((^-^), magVec, vecNorm)
+import Vector (magVec, vecNorm)
 
 data Shape = Circle Radius | AARect Width Height
 
@@ -49,6 +49,6 @@ intersect (AARect w h) (Circle r) v@(x, y)
   | otherwise      = Just (vecNorm pv)
   where
     p  = (clamp (-hw) hw x, clamp (-hh) hh y)
-    pv = v ^-^ p
+    pv = v - p
     hw = w / 2
     hh = h / 2

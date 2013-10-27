@@ -29,7 +29,7 @@ import Movable.Ball (Ball (Ball))
 import Movable.Paddle (Paddle (Paddle))
 import Tangible (centre, collide, left, right)
 import Time (StepTime)
-import Vector ((^+^), (^/^))
+import Vector ((^/^))
 import Visible (render)
 import Visible.ScoreKeeper (ScoreKeeper (ScoreKeeper), Score)
 import Visible.Board (Board (Board), brickBoard)
@@ -196,7 +196,7 @@ reflectBalls b1@(Ball p1 r1 c1 v1) b2@(Ball p2 r2 c2 v2) =
   maybe (b1, b2) new (collide b1 b2)
     where new n = (Ball p1 r1 c1 (reflect (negate n) v1 avVel)
                   ,Ball p2 r2 c2 (reflect n v2 avVel))
-          avVel = (v1 ^+^ v2) ^/^ 2
+          avVel = (v1 + v2) ^/^ 2
 
 leftTestBounds ::  (Float, Float) -> Bool
 leftTestBounds (a, b) = a <= (-worldWidth/2) + b/2

@@ -20,17 +20,6 @@
 
 import Graphics.Gloss.Data.Vector (Vector, dotV, magV)
 
-vecOp :: (Float -> Float -> Float) -> Vector -> Vector -> Vector
-vecOp op (x1, y1) (x2, y2) = (op x1 x2, op y1 y2)
-
-infixl 6 ^+^
-(^+^) ::  Vector -> Vector -> Vector
-(^+^) = vecOp (+)
-
-infixl 6 ^-^
-(^-^) ::  Vector -> Vector -> Vector
-(^-^) = vecOp (-)
-
 infixl 7 ^.^
 (^.^) ::  Vector -> Vector -> Float
 (^.^) = dotV

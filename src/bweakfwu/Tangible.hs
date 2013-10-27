@@ -21,7 +21,6 @@
 import Graphics.Gloss.Data.Color (Color)
 
 import Shape (Shape, Height, Normal, Width, intersect)
-import Vector ((^-^))
 import Visible (Visible)
 
 class (Visible a) => Tangible a where
@@ -38,4 +37,4 @@ class (Visible a) => Tangible a where
 type Position = (Width, Height)
 
 collide ::  (Tangible a, Tangible b) => a -> b -> Maybe Normal
-collide a b = intersect (shape a) (shape b) (centre b ^-^ centre a)
+collide a b = intersect (shape a) (shape b) (centre b - centre a)

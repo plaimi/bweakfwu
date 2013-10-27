@@ -22,7 +22,7 @@ import Graphics.Gloss.Data.Vector (Vector)
 
 import Time (StepTime)
 import Shape (Normal)
-import Vector ((^+^), (^-^), (^*^), (^.^), vecLimitMag)
+import Vector ((^*^), (^.^), vecLimitMag)
 
 class Movable a where
   vel          ::  a -> Velocity
@@ -31,8 +31,8 @@ class Movable a where
   acceleration ::  a -> Acceleration
 
 updateVelocity ::  Movable a => a -> StepTime -> Velocity
-updateVelocity m dt = vel m ^+^ vecLimitMag (dt * acceleration m) dv
-  where dv = targetVel m ^-^ vel m
+updateVelocity m dt = vel m + vecLimitMag (dt * acceleration m) dv
+  where dv = targetVel m - vel m
 
 type Acceleration = Float
 type Speed = Float
@@ -40,7 +40,7 @@ type Velocity = Vector
 
 reflect ::  Normal -> Velocity -> Velocity -> Velocity
 reflect n v w =
-  dvn'n ^+^ v                   -- New velocity based on frictionless and
+  dvn'n + v                     -- New velocity based on frictionless and
                                 -- superelastic collision (AKA troll physics).
                                 --
   where k     = 1.01            -- Restitution coefficient for gameplay.
