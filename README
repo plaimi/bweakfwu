@@ -5,8 +5,8 @@ It features local two-player.
 
 The controls are up/down arrow for moving the right paddle, and left arrow for
 launching its ball. For the right paddle, use 'u'/'j' for moving the paddle,
-and 'k' for launching the ball. We do not have control remapping support yet,
-but you can change it in src/bweakfwu/Handle.hs.
+and 'k' for launching the ball. Space pauses the game. We do not have control
+remapping support yet, but you can change it in src/bweakfwu/Handle.hs.
 
 For a more detailed explanation of features see the design document in 
 doc/design.txt. For an explanation of how these features are implemented see 

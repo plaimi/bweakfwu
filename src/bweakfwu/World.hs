@@ -36,7 +36,9 @@ import Visible.Board (Board (Board), brickBoard)
 import Visible.Brick (Brick (Brick), updateBrick)
 import Window (windowHeight, windowWidth)
 
-data World = World (Paddle, Paddle) (Ball, Ball) Board ScoreKeeper
+data World = World (Paddle, Paddle) (Ball, Ball) Board ScoreKeeper RunningP
+
+type RunningP = Bool
 
 bang ::  World
 bang =
@@ -45,13 +47,14 @@ bang =
         (Ball (-34.0, 0) 0.5 yellow 0
         ,Ball (34.0, 0) 0.5 magenta 0)
         (Board board)
-        $ ScoreKeeper 0 0
+        (ScoreKeeper 0 0)
+        True
 
 crunch :: World
 crunch = bang
 
 view ::  World -> Picture
-view (World (p1, p2) (b1, b2) bs s) =
+view (World (p1, p2) (b1, b2) bs s _) =
   Scale worldScale worldScale
   $ Pictures [render p1
              ,render p2
@@ -71,7 +74,7 @@ step t w =
     else gameStop
 
 gameP ::  World -> Bool
-gameP (World _ _ (Board bs) (ScoreKeeper s1 s2)) =
+gameP (World _ _ (Board bs) (ScoreKeeper s1 s2) _) =
   not (emptyBoard && winner)
   where emptyBoard = null bs
         winner     = s1 /= s2
@@ -80,20 +83,22 @@ gameStop ::  World
 gameStop = crunch
 
 gameStep ::  StepTime -> World -> World
-gameStep t w = 
-  updateVisibles
-  $ updateTangibles t
-  $ clampTangibles w
+gameStep t w@(World _ _ _ _ r) =
+  if r
+    then updateVisibles
+       $ updateTangibles t
+       $ clampTangibles w
+    else w
 
 board ::  [Brick]
 board = brickBoard 45 45
 
 clampTangibles :: World -> World
-clampTangibles (World p b bs s) =
+clampTangibles (World p b bs s r) =
   let p'  = clampPaddles p
       b'  = clampBalls b
       bs' = bs
-  in  World p' b' bs' s
+  in  World p' b' bs' s r
 
 clampPaddles ::  (Paddle, Paddle) -> (Paddle, Paddle)
 clampPaddles (p1, p2) = (clampPaddle p1, clampPaddle p2)
@@ -117,22 +122,22 @@ clampBall b@(Ball (x, y) r c (hv, vv))
   | otherwise             = b
 
 updateTangibles ::  StepTime -> World -> World
-updateTangibles t (World (p1, p2) (b1, b2) bs s) =
+updateTangibles t (World (p1, p2) (b1, b2) bs s r) =
   let p'                    = (move p1 t, move p2 t)
       ((b1', b2'), bs', s') = reflectBricks b1 b2 bs
       b1''                  = reflectPaddles b1' p1 p2
       b2''                  = reflectPaddles b2' p1 p2
       (b1''', b2''')        = reflectBalls b1'' b2''
       b'                    = (move b1''' t, move b2''' t)
-  in  World p' b' bs' (mergeScores s s' (ScoreKeeper 0 0))
+  in  World p' b' bs' (mergeScores s s' (ScoreKeeper 0 0)) r
 
 updateVisibles ::  World -> World
-updateVisibles (World (p1, p2) (b1, b2) bs s) =
+updateVisibles (World (p1, p2) (b1, b2) bs s r) =
   let (newB1P, newB2P, s') = updateScores (b1, b2) s
       b1' = if newB1P then resetBall b1 p1 else b1
       b2' = if newB2P then resetBall b2 p2 else b2
       bs' = bs
-  in  World (p1, p2) (b1', b2') bs' s'
+  in  World (p1, p2) (b1', b2') bs' s' r
 
 updateScores ::  (Ball, Ball) -> ScoreKeeper -> (Bool, Bool, ScoreKeeper)
 updateScores (b1, b2) s =
@@ -228,3 +233,6 @@ worldWidth = 80.0
 
 worldHeight ::  Float
 worldHeight = 45.0
+
+updateRunning :: Bool -> Bool
+updateRunning = not

@@ -25,7 +25,7 @@ Key keys
 ========
 
 Esc: exits the game and returns to main menu.
-Pause/break: Pauses the game.
+Space: Pauses the game.
 
 
 Paddles
