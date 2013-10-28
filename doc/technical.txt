@@ -56,6 +56,9 @@ launch position.
 
 When the ball collides with something, hit.flac is played.
 
+The ball has a minimum horizontal speed at 10.0, and a minimum vertical speed
+at 1.0. Its maximum speed is 150.0. The acceleration factor is 1.0/2.5.
+
 
 Board
 =====
