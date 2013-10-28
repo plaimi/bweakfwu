@@ -67,7 +67,7 @@ maxSpeed ::  Speed
 maxSpeed = 150.0
 
 minHSpeed ::  Speed
-minHSpeed = 5.0
+minHSpeed = 10.0
 
 minVSpeed ::  Speed
 minVSpeed = 1.0
@@ -75,4 +75,4 @@ minVSpeed = 1.0
 --How quickly to accelerate. This determines how quickly the ball is forced to
 --minimum and maximum speed.
 accelFactor ::  Float
-accelFactor = 1.0 / 5.0
+accelFactor = 1.0 / 2.5
