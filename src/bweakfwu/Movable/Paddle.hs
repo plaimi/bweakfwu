@@ -64,7 +64,7 @@ instance Movable Paddle where
     where tvy False = 0
           tvy True = maxSpeed
 
-  acceleration _ = 300
+  acceleration _ = 600
 
 react ::  Paddle -> ControlInput -> Paddle
 react (Paddle pos s c v ctrls) ci = Paddle pos s c v $ updateControls ci ctrls
@@ -75,4 +75,4 @@ updateControls (D, b) (u, _, l) = (u, b, l)
 updateControls (L, b) (u, d, _) = (u, d, b)
 
 maxSpeed ::  Speed
-maxSpeed = 45.0
+maxSpeed = 60.0
