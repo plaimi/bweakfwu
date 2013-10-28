@@ -60,6 +60,7 @@ instance Movable Ball where
           tvy      = magApply (max minVSpeed) vy
           (vx, vy) = vel b
 
+  -- Calculate acceleration based on speed.
   acceleration = (* accelFactor) . magVec . vel
 
 maxSpeed ::  Speed
@@ -71,5 +72,7 @@ minHSpeed = 5.0
 minVSpeed ::  Speed
 minVSpeed = 1.0
 
+--How quickly to accelerate. This determines how quickly the ball is forced to
+--minimum and maximum speed.
 accelFactor ::  Float
 accelFactor = 1.0 / 5.0
