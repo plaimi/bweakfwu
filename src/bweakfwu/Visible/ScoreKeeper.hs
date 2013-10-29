@@ -24,7 +24,7 @@ import Visible (Visible, render)
 
 data ScoreKeeper = ScoreKeeper Score Score
 
-type Score = Int
+type Score = Float
 
 instance Visible ScoreKeeper where
   render s =
@@ -34,4 +34,8 @@ instance Visible ScoreKeeper where
     $ Text (stringScore s)
 
 stringScore ::  ScoreKeeper -> String
-stringScore (ScoreKeeper s1 s2) = show s1 ++ " : " ++ show s2
+stringScore (ScoreKeeper s1 s2) =
+  show (realScore s1) ++ " : " ++ show (realScore s2)
+
+realScore ::  Score -> Int
+realScore s = floor s :: Int

@@ -85,7 +85,7 @@ gameStop = crunch
 gameStep ::  StepTime -> World -> World
 gameStep t w@(World _ _ _ _ r) =
   if r
-    then updateVisibles
+    then updateVisibles t
        $ updateTangibles t
        $ clampTangibles w
     else w
@@ -131,13 +131,14 @@ updateTangibles t (World (p1, p2) (b1, b2) bs s r) =
       b'                    = (move b1''' t, move b2''' t)
   in  World p' b' bs' (mergeScores s s' (ScoreKeeper 0 0)) r
 
-updateVisibles ::  World -> World
-updateVisibles (World (p1, p2) (b1, b2) bs s r) =
+updateVisibles ::  StepTime -> World -> World
+updateVisibles t (World p@(p1, p2) (b1, b2) bs s r) =
   let (newB1P, newB2P, s') = updateScores (b1, b2) s
       b1' = if newB1P then resetBall b1 p1 else b1
       b2' = if newB2P then resetBall b2 p2 else b2
+      s'' = mergeScores s' (punish b1 t) (punish b2 t)
       bs' = bs
-  in  World (p1, p2) (b1', b2') bs' s' r
+  in  World p (b1', b2') bs' s'' r
 
 updateScores ::  (Ball, Ball) -> ScoreKeeper -> (Bool, Bool, ScoreKeeper)
 updateScores (b1, b2) s =
@@ -188,7 +189,7 @@ reflectBricksWithBall b bs = (b', bs', s)
     sumH'                    = sumF bs'
     -- If the max health has gone down, this means a brick has been removed.
     -- Award the responsible player with maxHealh^2 points.
-    s                        = (sumH - sumH')^(2 :: Int)
+    s                        = fromIntegral (sumH - sumH')^(2 :: Int)
 
 reflectBrick ::  Ball -> Brick -> (Ball, Maybe Brick)
 reflectBrick ball@(Ball p1 r c v) brick =
@@ -227,6 +228,20 @@ launchBall b@(Ball p r c v) paddle =
   case v of
     0 -> Ball p r c (negate (centre paddle)) -- Vel is based on paddle pos.
     _ -> b
+
+notLaunched ::  Ball -> Bool
+notLaunched (Ball _ _ _ v) = v == 0
+
+punish ::  Ball -> StepTime -> ScoreKeeper
+-- This function discourages bad sportmanship by subtracting points.
+punish = punishIdling
+
+punishIdling ::  Ball -> StepTime -> ScoreKeeper
+punishIdling b@(Ball _ _ c _) t
+  | notLaunched b = ScoreKeeper s1 s2
+  | otherwise     = ScoreKeeper 0 0
+  where (s1, s2)   = if c == yellow then (punishment, 0) else (0, punishment)
+        punishment = negate (5 * t) -- Five points deducted per second.
 
 worldWidth ::  Float
 worldWidth = 80.0
