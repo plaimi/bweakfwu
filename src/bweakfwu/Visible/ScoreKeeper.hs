@@ -39,3 +39,12 @@ stringScore (ScoreKeeper s1 s2) =
 
 realScore ::  Score -> Int
 realScore s = floor s :: Int
+
+mergeScores ::  [ScoreKeeper] -> ScoreKeeper
+mergeScores sk =
+  ScoreKeeper s1 s2
+  where s1 = sum (map (fst . scores) sk)
+        s2 = sum (map (snd . scores) sk)
+
+scores ::  ScoreKeeper -> (Score, Score)
+scores (ScoreKeeper s1 s2) = (s1, s2)

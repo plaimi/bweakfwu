@@ -31,7 +31,7 @@ import Tangible (centre, collide, left, right)
 import Time (StepTime)
 import Vector ((^/^))
 import Visible (render)
-import Visible.ScoreKeeper (ScoreKeeper (ScoreKeeper), Score)
+import Visible.ScoreKeeper (ScoreKeeper (ScoreKeeper), Score, mergeScores)
 import Visible.Board (Board (Board), brickBoard)
 import Visible.Brick (Brick (Brick), updateBrick)
 import Window (windowHeight, windowWidth)
@@ -129,14 +129,14 @@ updateTangibles t (World (p1, p2) (b1, b2) bs s r) =
       b2''                  = reflectPaddles b2' p1 p2
       (b1''', b2''')        = reflectBalls b1'' b2''
       b'                    = (move b1''' t, move b2''' t)
-  in  World p' b' bs' (mergeScores s s' (ScoreKeeper 0 0)) r
+  in  World p' b' bs' (mergeScores [s, s']) r
 
 updateVisibles ::  StepTime -> World -> World
 updateVisibles t (World p@(p1, p2) (b1, b2) bs s r) =
   let (newB1P, newB2P, s') = updateScores (b1, b2) s
       b1' = if newB1P then resetBall b1 p1 else b1
       b2' = if newB2P then resetBall b2 p2 else b2
-      s'' = mergeScores s' (punish b1 t) (punish b2 t)
+      s'' = mergeScores [s', punish b1 t, punish b2 t]
       bs' = bs
   in  World p (b1', b2') bs' s'' r
 
@@ -147,7 +147,7 @@ updateScores (b1, b2) s =
         result2    = updateScore b2
         resetBall1 = fst result1
         resetBall2 = fst result2
-        s'         = mergeScores s (snd result1) (snd result2)
+        s'         = mergeScores [s, snd result1, snd result2]
 
 updateScore ::  Ball -> (Bool, ScoreKeeper)
 updateScore (Ball (x, _) r c _)
@@ -158,10 +158,6 @@ updateScore (Ball (x, _) r c _)
                                  then (True, ScoreKeeper 50 0)
                                  else (True, ScoreKeeper 0 (-30))
   | otherwise                = (False, ScoreKeeper 0 0)
-
-mergeScores ::  ScoreKeeper -> ScoreKeeper -> ScoreKeeper -> ScoreKeeper
-mergeScores (ScoreKeeper s s2) (ScoreKeeper ss ss2) (ScoreKeeper sss sss2) =
-  ScoreKeeper (s+ss+sss) (s2+ss2+sss2)
 
 reflectPaddles ::  Ball -> Paddle -> Paddle -> Ball
 reflectPaddles b@(Ball p r c v) p1 p2 =
