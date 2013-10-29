@@ -41,6 +41,9 @@ Ball
 
 The ball is placed vertically centred by the paddle of its owner.
 
+The ball can be launched from the paddle. The velocity of the ball is
+determined by the position of the paddle.
+
 The balls test for collisions on the screen edges, the paddles, each other and 
 on the bricks.
 

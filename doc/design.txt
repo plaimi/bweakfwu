@@ -86,6 +86,10 @@ gets 50 points.
 If a paddle's ball hits the paddle's screen edge, the paddle's actor gets -30
 points.
 
+When the ball hits an player's screen edge, it it reset to the paddle position
+of the player. From here, a player may launch the paddle. If they do not
+hurry, they are deducted points.
+
 On-screen-display
 -----------------
 The on-screen display shows the current score centred at the top of the board.
