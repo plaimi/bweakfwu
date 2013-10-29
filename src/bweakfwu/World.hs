@@ -42,8 +42,8 @@ type RunningP = Bool
 
 bang ::  World
 bang =
-  World (Paddle (-35.0, 0) (1, 5) yellow 0 (False, False, False)
-        ,Paddle (35.0, 0) (1, 5) magenta 0 (False, False, False))
+  World (Paddle (-35.0, 0) (1, 7) yellow 0 (False, False, False)
+        ,Paddle (35.0, 0) (1, 7) magenta 0 (False, False, False))
         (Ball (-34.0, 0) 0.5 yellow 0
         ,Ball (34.0, 0) 0.5 magenta 0)
         (Board board)

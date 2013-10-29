@@ -62,7 +62,7 @@ same colour hits them.
 Paddles
 -------
 Paddles are the "characters" of the game. They may move vertically (respective 
-to the screen). A paddle is 1 x 5 cells. The left paddle is yellow and the 
+to the screen). A paddle is 1 x 7 cells. The left paddle is yellow and the
 right is magenta.
 
 Ball
