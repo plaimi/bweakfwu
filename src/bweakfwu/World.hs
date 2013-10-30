@@ -184,7 +184,7 @@ reflectBricksWithBall b bs = (b', bs', s)
     sumH                     = sumF bs
     sumH'                    = sumF bs'
     -- If the max health has gone down, this means a brick has been removed.
-    -- Award the responsible player with maxHealh^2 points.
+    -- Award the responsible player with maxHealth^2 points.
     s                        = fromIntegral (sumH - sumH')^(2 :: Int)
 
 reflectBrick ::  Ball -> Brick -> (Ball, Maybe Brick)
