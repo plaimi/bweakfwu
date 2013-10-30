@@ -88,6 +88,9 @@ If a coloured (owned) brick is hit by a ball by a different colour (a
 challenger), the brick loses some of its colour, eventually becoming white
 (unowned) again.
 
+The amount of hit points being subtracted or added is based on the velocity of
+the ball that hits them.
+
 
 On-Screen-Display
 -----------------
