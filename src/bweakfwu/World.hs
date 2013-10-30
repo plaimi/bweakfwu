@@ -29,11 +29,11 @@ import Movable.Ball (Ball (Ball))
 import Movable.Paddle (Paddle (Paddle))
 import Tangible (centre, collide, left, right)
 import Time (StepTime)
-import Vector ((^/^))
+import Vector ((^/^), magVec)
 import Visible (render)
 import Visible.ScoreKeeper (ScoreKeeper (ScoreKeeper), Score, mergeScores)
 import Visible.Board (Board (Board), brickBoard)
-import Visible.Brick (Brick (Brick), updateBrick)
+import Visible.Brick (Brick (Brick), maxHealth)
 import Window (windowHeight, windowWidth)
 
 data World = World (Paddle, Paddle) (Ball, Ball) Board ScoreKeeper RunningP
@@ -190,8 +190,23 @@ reflectBricksWithBall b bs = (b', bs', s)
 reflectBrick ::  Ball -> Brick -> (Ball, Maybe Brick)
 reflectBrick ball@(Ball p1 r c v) brick =
   maybe (ball, Just brick) new (collide brick ball)
-  where new n = (Ball p1 r c (reflect n v 0), updateBrick brick c)
+  where new n = (Ball p1 r c (reflect n v 0), updateBrick brick ball)
 
+updateBrick ::  Brick -> Ball -> Maybe Brick
+updateBrick brick@(Brick p s h maxH c) (Ball _ _ col v) =
+  if h' > 1
+    then Just (Brick p s h' maxH c')
+    else Nothing
+  where h'         = if c == white || c == col
+                       then downHealth
+                       else upHealth
+        downHealth = floor $ fromIntegral h - impact
+        upHealth   = min (maxHealth brick) (floor $ fromIntegral h + impact)
+        impact     = magVec v / 50 -- Magic gameplay-suitable number.
+        c'
+          | c == white = col
+          | maxH == h' = white
+          | otherwise  = c
 
 reflectBalls ::  Ball -> Ball -> (Ball, Ball)
 reflectBalls b1@(Ball p1 r1 c1 v1) b2@(Ball p2 r2 c2 v2) =

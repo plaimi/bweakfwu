@@ -53,16 +53,3 @@ health (Brick _ _ h _ _) = h
 
 maxHealth ::  Brick -> Health
 maxHealth (Brick _ _ _ h _) = h
-
-updateBrick ::  Brick -> Color -> Maybe Brick
-updateBrick (Brick p s h maxH c) col =
-  if h' > 1
-    then Just (Brick p s h' maxH c')
-    else Nothing
-  where h' = if c == white || c == col
-               then h - 1
-               else h + 1
-        c'
-          | c == white = col
-          | maxH == h' = white
-          | otherwise  = c
