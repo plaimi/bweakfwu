@@ -194,7 +194,7 @@ reflectBrick ball@(Ball p1 r c v) brick =
 
 updateBrick ::  Brick -> Ball -> Maybe Brick
 updateBrick brick@(Brick p s h maxH c) (Ball _ _ col v) =
-  if h' > 1
+  if h' > 0
     then Just (Brick p s h' maxH c')
     else Nothing
   where h'         = if c == white || c == col
