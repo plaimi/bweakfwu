@@ -201,7 +201,7 @@ updateBrick brick@(Brick p s h maxH c) (Ball _ _ col v) =
                        then downHealth
                        else upHealth
         downHealth = floor $ fromIntegral h - impact
-        upHealth   = min (maxHealth brick) (floor $ fromIntegral h + impact)
+        upHealth   = min (maxHealth brick) (ceiling $ fromIntegral h + impact)
         impact     = magVec v / 50 -- Magic gameplay-suitable number.
         c'
           | c == white = col
