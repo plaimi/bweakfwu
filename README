@@ -38,6 +38,8 @@ $ cabal configure
 $ cabal build
 $ cabal install
 
+The binary will be called bweakfwu.
+
 
 Licensing and Legalese
 =======================
