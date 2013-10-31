@@ -19,6 +19,8 @@ implementation.
 Dependencies
 ============
 
+The only library that is required is gloss >= 1.8.0.
+
 The game is built using ghc.
 
 
