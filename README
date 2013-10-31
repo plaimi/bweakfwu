@@ -23,6 +23,8 @@ The only library that is required is gloss >= 1.8.0.
 
 The game is built using ghc.
 
+Cabal is optional, but it makes building and installing a lot easier.
+
 
 Installing and Running
 ======================
