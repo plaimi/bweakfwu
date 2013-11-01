@@ -108,7 +108,9 @@ clampPaddle p@(Paddle (x, y) (w, h) c vv tv)
   | upTestBounds(y, hh)   = Paddle (x, hw - hh) (w, h) c (vv' (0, -1)) tv
   | downTestBounds(y, hh) = Paddle (x, -hw + hh) (w, h) c (vv' (0, 1)) tv
   | otherwise             = p
-  where vv' n = reflect n vv 0
+  --vv/4 results in a small bump from the wall.
+  --A bigger divisor will give a bigger bump.
+  where vv' n = reflect n vv (vv ^/^ 8)
         hh    = h/2
         hw    = worldHeight/2
 

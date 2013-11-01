@@ -35,6 +35,8 @@ Paddles are handled by the players. They react to key presses and depresses
 for a "move up" and a "move down" command, and a "launch ball" command. They 
 accelerate at 600 cells per second^2 to a max speed of 60 cells per second.
 
+When paddles hit the vertical borders of the screen, they gently bump back.
+
 
 Ball
 ----
