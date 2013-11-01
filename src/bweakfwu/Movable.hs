@@ -38,14 +38,12 @@ type Acceleration = Float
 type Speed = Float
 type Velocity = Vector
 
-reflect ::  Normal -> Velocity -> Velocity -> Velocity
-reflect n v w =
-  dvn'n + v                     -- New velocity based on frictionless and
-                                -- superelastic collision (AKA troll physics).
-                                --
-  where k     = 1.01            -- Restitution coefficient for gameplay.
-        dv    = w - v           -- Relative velocity between colliders.
-        dc    = dv ^*^ (1 + k)  -- Collision delta as if head-on crash.
-        dvn   = n ^.^ dc        -- Velocity delta on collision normal.
-        dvn'  = max 0 dvn       -- Sanitation of dvn.
-        dvn'n = n ^*^ dvn'      -- Vectorificationing of dvn.
+reflect ::  Float -> Normal -> Velocity -> Velocity -> Velocity
+reflect cor n v w =
+  dvn'n + v                      -- New velocity from frictionless collision
+                                 --
+  where dv    = w - v            -- Relative velocity between colliders.
+        dc    = dv ^*^ (1 + cor) -- Collision delta as if head-on crash.
+        dvn   = n ^.^ dc         -- Velocity delta on collision normal.
+        dvn'  = max 0 dvn        -- Sanitation of dvn.
+        dvn'n = n ^*^ dvn'       -- Vectorificationing of dvn.

@@ -108,9 +108,9 @@ clampPaddle p@(Paddle (x, y) (w, h) c vv tv)
   | upTestBounds(y, hh)   = Paddle (x, hw - hh) (w, h) c (vv' (0, -1)) tv
   | downTestBounds(y, hh) = Paddle (x, -hw + hh) (w, h) c (vv' (0, 1)) tv
   | otherwise             = p
-  --vv/4 results in a small bump from the wall.
-  --A bigger divisor will give a bigger bump.
-  where vv' n = reflect n vv (vv ^/^ 8)
+  -- 0.75 results in a small bump from the wall.
+  -- A bigger number will give a bigger bump.
+  where vv' n = reflect 0.75 n vv 0
         hh    = h/2
         hw    = worldHeight/2
 
@@ -165,7 +165,7 @@ reflectPaddles ::  Ball -> Paddle -> Paddle -> Ball
 reflectPaddles b@(Ball p r c v) p1 p2 =
   maybe b new (test p1 <|> test p2)
   where test pad     = (\n -> (n, vel pad)) <$> collide pad b
-        new (cn, cv) = Ball p r c (reflect cn v cv)
+        new (cn, cv) = Ball p r c (reflect 1.01 cn v cv)
 
 reflectBricks ::  Ball -> Ball -> Board -> ((Ball, Ball), Board, ScoreKeeper)
 reflectBricks b1 b2 (Board bricks)  =
@@ -192,7 +192,7 @@ reflectBricksWithBall b bs = (b', bs', s)
 reflectBrick ::  Ball -> Brick -> (Ball, Maybe Brick)
 reflectBrick ball@(Ball p1 r c v) brick =
   maybe (ball, Just brick) new (collide brick ball)
-  where new n = (Ball p1 r c (reflect n v 0), updateBrick brick ball)
+  where new n = (Ball p1 r c (reflect 1.01 n v 0), updateBrick brick ball)
 
 updateBrick ::  Brick -> Ball -> Maybe Brick
 updateBrick brick@(Brick p s h maxH c) (Ball _ _ col v) =
@@ -213,8 +213,8 @@ updateBrick brick@(Brick p s h maxH c) (Ball _ _ col v) =
 reflectBalls ::  Ball -> Ball -> (Ball, Ball)
 reflectBalls b1@(Ball p1 r1 c1 v1) b2@(Ball p2 r2 c2 v2) =
   maybe (b1, b2) new (collide b1 b2)
-    where new n = (Ball p1 r1 c1 (reflect (negate n) v1 avVel)
-                  ,Ball p2 r2 c2 (reflect n v2 avVel))
+    where new n = (Ball p1 r1 c1 (reflect 1.01 (negate n) v1 avVel)
+                  ,Ball p2 r2 c2 (reflect 1.01 n v2 avVel))
           avVel = (v1 + v2) ^/^ 2
 
 leftTestBounds ::  (Float, Float) -> Bool
