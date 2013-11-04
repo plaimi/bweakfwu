@@ -40,8 +40,7 @@ type Velocity = Vector
 
 reflect ::  Float -> Normal -> Velocity -> Velocity -> Velocity
 reflect cor n v w =
-  dvn'n + v                      -- New velocity from frictionless collision
-                                 --
+  dvn'n + v                      -- New velocity from frictionless collision.
   where dv    = w - v            -- Relative velocity between colliders.
         dc    = dv ^*^ (1 + cor) -- Collision delta as if head-on crash.
         dvn   = n ^.^ dc         -- Velocity delta on collision normal.
