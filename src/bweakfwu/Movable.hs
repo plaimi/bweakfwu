@@ -38,11 +38,14 @@ type Acceleration = Float
 type Speed = Float
 type Velocity = Vector
 
+dvMag ::  Float -> Normal -> Velocity -> Float
+dvMag cor n v = max 0 (n ^.^ v * (-1 - cor))
+
+dvApply ::  Velocity -> Normal -> Float -> Velocity
+dvApply v n dvm = v + n ^*^ dvm
+
 reflect ::  Float -> Normal -> Velocity -> Velocity -> Velocity
 reflect cor n v w =
-  dvn'n + v                      -- New velocity from frictionless collision.
-  where dv    = w - v            -- Relative velocity between colliders.
-        dc    = dv ^*^ (1 + cor) -- Collision delta as if head-on crash.
-        dvn   = n ^.^ dc         -- Velocity delta on collision normal.
-        dvn'  = max 0 dvn        -- Sanitation of dvn.
-        dvn'n = n ^*^ dvn'       -- Vectorificationing of dvn.
+  dvApply v n dvm              -- New velocity from frictionless collision.
+  where rv  = v - w            -- Relative velocity between colliders.
+        dvm = dvMag cor n rv   -- Magnitude of velocity change.

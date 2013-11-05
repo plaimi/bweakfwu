@@ -24,12 +24,12 @@ import Graphics.Gloss.Data.Color (magenta, white, yellow)
 import Graphics.Gloss.Data.Picture (Picture (Color, Pictures, Scale)
                                    , rectangleWire)
 
-import Movable (move, reflect, vel)
+import Movable (dvApply, dvMag, move, reflect, vel)
 import Movable.Ball (Ball (Ball))
 import Movable.Paddle (Paddle (Paddle))
 import Tangible (centre, collide, left, right)
 import Time (StepTime)
-import Vector ((^/^), magVec)
+import Vector ((^/^))
 import Visible (render)
 import Visible.ScoreKeeper (ScoreKeeper (ScoreKeeper), Score, mergeScores)
 import Visible.Board (Board (Board), brickBoard)
@@ -192,10 +192,12 @@ reflectBricksWithBall b bs = (b', bs', s)
 reflectBrick ::  Ball -> Brick -> (Ball, Maybe Brick)
 reflectBrick ball@(Ball p1 r c v) brick =
   maybe (ball, Just brick) new (collide brick ball)
-  where new n = (Ball p1 r c (reflect 1.01 n v 0), updateBrick brick ball)
+  where new n = (Ball p1 r c (v' n), updateBrick brick ball (imp n))
+        imp n = dvMag 1.01 n v
+        v' n  = dvApply v n (imp n)
 
-updateBrick ::  Brick -> Ball -> Maybe Brick
-updateBrick brick@(Brick p s h maxH c) (Ball _ _ col v) =
+updateBrick ::  Brick -> Ball -> Float -> Maybe Brick
+updateBrick brick@(Brick p s h maxH c) (Ball _ _ col _) dvm =
   if h' > 0
     then Just (Brick p s h' maxH c')
     else Nothing
@@ -204,7 +206,7 @@ updateBrick brick@(Brick p s h maxH c) (Ball _ _ col v) =
                        else upHealth
         downHealth = floor $ fromIntegral h - impact
         upHealth   = min (maxHealth brick) (ceiling $ fromIntegral h + impact)
-        impact     = magVec v / 50 -- Magic gameplay-suitable number.
+        impact     = dvm / 50 -- Magic gameplay-suitable number.
         c'
           | c == white = col
           | maxH == h' = white
