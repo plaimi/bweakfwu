@@ -20,8 +20,8 @@
 
 import Graphics.Gloss.Data.Vector (Vector)
 
+import Geometry (Normal)
 import Time (StepTime)
-import Shape (Normal)
 import Vector ((^*^), (^.^), vecLimitMag)
 
 -- | All objects that are capable of moving in the 'World' are 'Movable'

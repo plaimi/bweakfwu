@@ -13,7 +13,8 @@ cabal-version: >=1.2
 
 Executable bweakfwu
            Main-is:        Main.hs
-           other-modules:  Handle
+           other-modules:  Geometry
+                           Handle
                            Mathema
                            Movable
                            Movable.Ball

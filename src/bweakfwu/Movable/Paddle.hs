@@ -23,9 +23,10 @@ import Graphics.Gloss.Data.Picture (Picture (Color, Translate)
                                    , rectangleSolid)
 import Graphics.Gloss.Data.Point (Point)
 
+import Geometry (Height, Width)
 import Movable (Movable, Speed, Velocity, acceleration, move, vel, targetVel
                ,updateVelocity)
-import Shape (Shape (AARect), Height, Width)
+import Shape (Shape (AARect))
 import Tangible (Tangible, Position, bottom, centre
                 , colour, height, left, right, shape, top, width)
 import Visible (Visible, render)

@@ -21,7 +21,8 @@ import Graphics.Gloss.Data.Color (Color, mixColors, white)
 import Graphics.Gloss.Data.Picture (Picture (Color, Translate)
                                    , rectangleSolid)
 
-import Shape (Shape (AARect), Height, Width)
+import Geometry (Height, Width)
+import Shape (Shape (AARect))
 import Tangible (Tangible, Position, bottom, centre, colour, height, left
                 ,right, shape, top, width)
 import Visible (Visible, render)

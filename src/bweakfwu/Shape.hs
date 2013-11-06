@@ -20,6 +20,7 @@
 
 import Graphics.Gloss.Data.Vector (Vector)
 
+import Geometry (Height, Normal, Radius, Width)
 import Mathema (clamp)
 import Vector (magVec, vecNorm)
 
@@ -27,15 +28,6 @@ data Shape =
   -- | A 'Shape' is a 'Circle' with a 'Radius', or an 'AARect' with a 'Width'
   -- and a 'Height'.
   Circle Radius | AARect Width Height
-
--- | 'Width' is the width of an object.
-type Width = Float
--- | 'Height' is the height of an object.
-type Height = Float
--- | 'Radius' is the radius of an object.
-type Radius = Float
--- | 'Normal' is a normal vector.
-type Normal = Vector
 
 outerRadius ::  Shape -> Radius
 -- | 'outerRadius' finds the outer 'Radius' of a 'Shape'.

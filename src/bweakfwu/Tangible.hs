@@ -21,7 +21,8 @@
 import Graphics.Gloss.Data.Color (Color)
 import Graphics.Gloss.Data.Point (Point)
 
-import Shape (Shape, Height, Normal, Width, intersect)
+import Geometry (Height, Normal, Width)
+import Shape (Shape, intersect)
 import Visible (Visible)
 
 -- | All objects in the 'World' that are capable of colliding are 'Tangible'

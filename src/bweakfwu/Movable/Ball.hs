@@ -21,10 +21,11 @@
 import Graphics.Gloss.Data.Color (Color)
 import Graphics.Gloss.Data.Picture (Picture (Color, Translate), circleSolid)
 
+import Geometry (Radius)
 import Mathema (magApply)
 import Movable (Movable, Speed, Velocity, acceleration, move, targetVel
                ,updateVelocity, vel)
-import Shape (Shape (Circle), Radius)
+import Shape (Shape (Circle))
 import Tangible (Tangible, Position, bottom, centre, colour
                 ,height, left, right, shape, top, width)
 import Vector (magVec, vecLimitMag)
