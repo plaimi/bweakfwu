@@ -15,7 +15,7 @@
 -
 - You should have received a copy of the GNU General Public License
 - along with bwekfwu  If not, see <http://www.gnu.org/licenses/>.
--}
+-} module Main where
 
 import Graphics.Gloss.Interface.Pure.Game (play)
 import Graphics.Gloss.Data.Color (black)
@@ -25,6 +25,7 @@ import Window (window)
 import World (bang, step, view)
 
 main ::  IO ()
+-- | 'main' starts the game loop.
 main =
   play
   window -- The display mode.

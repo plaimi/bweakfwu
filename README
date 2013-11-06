@@ -10,10 +10,7 @@ remapping support yet, but you can change it in src/bweakfwu/Handle.hs.
 
 For a more detailed explanation of features see the design document in 
 doc/design.txt. For an explanation of how these features are implemented see 
-the technical document in doc/technical.txt. For an explanation on how the 
-explanations are structured, see doc/about.txt. Note that these documents may
-reflect our currently immediate goals, not the current status of the 
-implementation.
+the Haddock-generated documentation.
 
 
 Dependencies
@@ -32,13 +29,21 @@ Installing and Running
 NOTE: This repository is for developers. If you are a regular user, you should
 refer to <https://secure.plaimi.net/games/bweakfwu/>.
 
-Install instructions using cabal
---------------------------------
+Build instructions for developers
+---------------------------------
+
+# Configure cabal, making sure you have the dependencies, etc
 $ cabal configure
+# Build the game, puts a binary in ./dist/build/bweakfwu/
 $ cabal build
+# Make the documentation, puts html in ./dist/doc/htm/bweakfwu/bweakfwu/
+$ cabal haddock --executables --hyperlink-source
+
+To install the game use
+
 $ cabal install
 
-The binary will be called bweakfwu.
+This will add the binary "bweakfwu" to your cabal binaries.
 
 
 Licensing and Legalese

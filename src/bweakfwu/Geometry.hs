@@ -15,11 +15,15 @@
 -
 - You should have received a copy of the GNU General Public License
 - along with bwekfwu  If not, see <http://www.gnu.org/licenses/>.
--} module Visible where
+-} module Geometry where
 
-import Graphics.Gloss.Data.Picture (Picture)
+import Graphics.Gloss.Data.Vector (Vector)
 
--- | All objects in the 'World' that need to be drawn are 'Visible' objects.
-class Visible a where
-  -- | 'render' makes a 'Picture' of a 'Visible'.
-  render ::  a -> Picture
+-- | 'Width' is the width of an object.
+type Width = Float
+-- | 'Height' is the height of an object.
+type Height = Float
+-- | 'Radius' is the radius of an object.
+type Radius = Float
+-- | 'Normal' is a normal vector.
+type Normal = Vector

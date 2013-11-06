@@ -23,12 +23,17 @@ import Graphics.Gloss.Data.Picture (Picture (Pictures))
 import Visible (Visible, render)
 import Visible.Brick (Brick (Brick))
 
-data Board = Board [Brick]
+data Board =
+  -- | 'Board' consists of a list of 'Bricks'.
+  Board [Brick]
 
 instance Visible Board where
+  -- | 'render' draws a 'Board' by calling the render function of each 'Brick'
+  -- on the Board.
   render (Board bs) = Pictures (map render bs)
 
 brickBoard ::  Int -> Int -> [Brick]
+-- | 'brickBoard' makes a list of 'Brick's.
 brickBoard w h = brickColumns l b nColumns nRows hSpace vSpace
   where l = negate (div nColumns 2 * hSpace)
         b = negate (div nRows 2 * vSpace)
@@ -38,6 +43,7 @@ brickBoard w h = brickColumns l b nColumns nRows hSpace vSpace
         vSpace = 6
 
 brickColumn ::  Int -> Int -> Int -> Int -> [Brick]
+-- | 'brickColumn' makes a column of 'Bricks'.
 brickColumn _ _ 0 _ = []
 brickColumn x b nRows distance =
   Brick (fromIntegral x, fromIntegral b) (1, 3) hp hp white
@@ -47,6 +53,7 @@ brickColumn x b nRows distance =
                else floor (10 / (log . abs $ fromIntegral x :: Float))
 
 brickColumns ::  Int -> Int -> Int -> Int -> Int -> Int -> [Brick]
+-- | 'brickColumns' makes columns of 'Bricks'.
 brickColumns _ _ 0 _ _ _ = []
 brickColumns l b nColumns nRows hDistance vDistance =
   brickColumn l b nRows vDistance
