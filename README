@@ -74,6 +74,6 @@ If you want to otherwise discuss the game use
 
 If you want to contribute code, upload a patch to the corresponding bug on 
 Bugzilla -- or, if there is none, send it to the mailing list linked above.
-Make sure you update doc/*.txt in your patch!
+Make sure you update doc/design.txt in your patch!
 
 /* vim: set textwidth=78 et spell formatoptions=actw2 autoindent: */
