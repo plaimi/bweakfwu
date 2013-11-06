@@ -262,5 +262,5 @@ worldWidth = 80.0
 worldHeight ::  Float
 worldHeight = 45.0
 
-updateRunning :: Bool -> Bool
+updateRunning :: RunningP -> RunningP
 updateRunning = not
