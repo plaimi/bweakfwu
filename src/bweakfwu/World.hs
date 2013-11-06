@@ -25,6 +25,7 @@ import Graphics.Gloss.Data.Picture (Picture (Color, Pictures, Scale)
                                    , rectangleWire)
 import Graphics.Gloss.Data.Point (Point)
 
+import Geometry (Height, Width)
 import Movable (move, reflect, vel)
 import Movable.Ball (Ball (Ball))
 import Movable.Paddle (Paddle (Paddle))
@@ -351,11 +352,11 @@ punishIdling b@(Ball _ _ c _) t
   where (s1, s2)   = if c == yellow then (punishment, 0) else (0, punishment)
         punishment = negate (5 * t) -- Five points deducted per second.
 
-worldWidth ::  Float
+worldWidth ::  Width
 -- | 'worldWidth' is the width of the 'World'.
 worldWidth = 80.0
 
-worldHeight ::  Float
+worldHeight ::  Height
 -- | 'worldHeight' is the height of the 'World'.
 worldHeight = 45.0
 
