@@ -36,7 +36,8 @@ outerRadius (AARect w h) = magVec (w, h) / 2
 
 intersect ::  Shape -> Shape -> Vector -> Maybe Normal
 -- | 'intersect' checks if two 'Shape's intersect.
--- 'Circle'--'AARect' is like AARect--Circle. In principle, both the 'Vector'
+
+-- Circle--AARect is like AARect--Circle. In principle, both the Vector
 -- parameter and the resulting 'Normal' should be negated, but leaving them
 -- both as they are is just as effective.
 intersect c@(Circle _) r@(AARect _ _) v = intersect r c v

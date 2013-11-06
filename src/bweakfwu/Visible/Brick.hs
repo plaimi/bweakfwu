@@ -32,8 +32,8 @@ data Brick =
   -- 'MaxHealth' value and a 'Color'.
   --
   -- Note that brick ownership is determined by comparing the Brick's Color
-  -- to the Color of the 'Paddle's/'Ball's of the players. In the future this
-  -- should be done more sanely.
+  -- to the Color of the 'Paddle's or 'Ball's of the players. In the future
+  -- this should be done more sanely.
   Brick Position (Width, Height) Health MaxHealth Color
 
 -- | 'Health' is the number of hit points an object has.

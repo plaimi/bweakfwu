@@ -21,7 +21,6 @@ import Graphics.Gloss.Data.Display (Display (InWindow))
 
 window ::  Display
 -- | 'window' makes an 'InWindow' with a title, size and position.
---                Title      Size                        Position
 window = InWindow "bweakfwu" (windowWidth, windowHeight) (10, 10)
 
 windowWidth ::  Int

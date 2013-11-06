@@ -109,7 +109,7 @@ step t w =
 gameP ::  World -> Bool
 -- | 'gameP' checks whether a game is in progress by checking if the 'Board'
 -- is empty and if somebody is leading (which means there is a potential
--- winner.)
+-- winner).
 gameP (World _ _ (Board bs) (ScoreKeeper s1 s2) _) =
   not (emptyBoard && winner)
   where emptyBoard = null bs
@@ -329,7 +329,7 @@ launchBall b@(Ball p r c v) paddle =
     _ -> b
 
 notLaunched ::  Ball -> Bool
--- | 'notLaunched' checks if a 'Ball' is not yet launched from its 'Paddle.'
+-- | 'notLaunched' checks if a 'Ball' is not yet launched from its 'Paddle'.
 --
 -- Presently we can check this simply by checking if the Ball is still, as
 -- this situation may only occur if a Ball has not yet been launched.

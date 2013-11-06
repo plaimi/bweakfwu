@@ -37,11 +37,11 @@ class Movable a where
   -- | 'acceleration' is the current 'Acceleration' of a movable.
   acceleration ::  a -> Acceleration
 
--- | 'Acceleration' is the acceleration of a 'Movable'
+-- | 'Acceleration' is the acceleration of a 'Movable'.
 type Acceleration = Float
--- | 'Speed' is the speed of a 'Movable'
+-- | 'Speed' is the speed of a 'Movable'.
 type Speed = Float
--- | 'Velocity' is the velocity of a 'Movable'
+-- | 'Velocity' is the velocity of a 'Movable'.
 type Velocity = Vector
 
 dvMag ::  Float -> Normal -> Velocity -> Float

@@ -24,7 +24,7 @@ import Visible (Visible, render)
 import Visible.Brick (Brick (Brick))
 
 data Board =
-  -- | 'Board' consists of a list of 'Bricks'.
+  -- | 'Board' consists of a list of 'Brick's.
   Board [Brick]
 
 instance Visible Board where
@@ -43,7 +43,7 @@ brickBoard w h = brickColumns l b nColumns nRows hSpace vSpace
         vSpace = 6
 
 brickColumn ::  Int -> Int -> Int -> Int -> [Brick]
--- | 'brickColumn' makes a column of 'Bricks'.
+-- | 'brickColumn' makes a column of 'Brick's.
 brickColumn _ _ 0 _ = []
 brickColumn x b nRows distance =
   Brick (fromIntegral x, fromIntegral b) (1, 3) hp hp white
@@ -53,7 +53,7 @@ brickColumn x b nRows distance =
                else floor (10 / (log . abs $ fromIntegral x :: Float))
 
 brickColumns ::  Int -> Int -> Int -> Int -> Int -> Int -> [Brick]
--- | 'brickColumns' makes columns of 'Bricks'.
+-- | 'brickColumns' makes columns of 'Brick's.
 brickColumns _ _ 0 _ _ _ = []
 brickColumns l b nColumns nRows hDistance vDistance =
   brickColumn l b nRows vDistance
