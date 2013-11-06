@@ -29,4 +29,4 @@ Executable bweakfwu
                            World
            Build-Depends:  base >=4, gloss >=1.8.0
            hs-source-dirs: src src/bweakfwu
-           ghc-options:    -O2 -threaded
+           ghc-options:    -threaded
