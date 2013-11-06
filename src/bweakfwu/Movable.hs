@@ -30,13 +30,13 @@ class Movable a where
   targetVel    ::  a -> Velocity
   acceleration ::  a -> Acceleration
 
-updateVelocity ::  Movable a => a -> StepTime -> Velocity
-updateVelocity m dt = vel m + vecLimitMag (dt * acceleration m) dv
-  where dv = targetVel m - vel m
-
 type Acceleration = Float
 type Speed = Float
 type Velocity = Vector
+
+updateVelocity ::  Movable a => a -> StepTime -> Velocity
+updateVelocity m dt = vel m + vecLimitMag (dt * acceleration m) dv
+  where dv = targetVel m - vel m
 
 reflect ::  Float -> Normal -> Velocity -> Velocity -> Velocity
 reflect cor n v w =
