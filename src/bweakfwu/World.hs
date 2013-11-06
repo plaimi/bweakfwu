@@ -23,6 +23,7 @@ import Control.Applicative ((<$>), (<|>))
 import Graphics.Gloss.Data.Color (magenta, white, yellow)
 import Graphics.Gloss.Data.Picture (Picture (Color, Pictures, Scale)
                                    , rectangleWire)
+import Graphics.Gloss.Data.Point (Point)
 
 import Movable (move, reflect, vel)
 import Movable.Ball (Ball (Ball))
@@ -288,22 +289,22 @@ reflectBalls b1@(Ball p1 r1 c1 v1) b2@(Ball p2 r2 c2 v2) =
                   ,Ball p2 r2 c2 (reflect 1.01 n v2 avVel))
           avVel = (v1 + v2) ^/^ 2
 
-leftTestBounds ::  (Float, Float) -> Bool
+leftTestBounds ::  Point -> Bool
 -- | 'leftTestBounds' tests if a 'Point' is within the left edge of the
 -- 'World'
 leftTestBounds (a, b) = a <= (-worldWidth/2) + b/2
 
-rightTestBounds ::  (Float, Float) -> Bool
+rightTestBounds ::  Point -> Bool
 -- | 'rightTestBounds' tests if a 'Point' is within the right edge of the
 -- 'World'.
 rightTestBounds (a, b) = a >= worldWidth/2 - b/2
 
-upTestBounds ::  (Float, Float) -> Bool
+upTestBounds ::  Point -> Bool
 -- | 'upTestBounds' tests if a 'Point' is within the upper edge of the
 -- 'World'.
 upTestBounds (a, b) = a >= worldHeight/2 - b
 
-downTestBounds ::  (Float, Float) -> Bool
+downTestBounds ::  Point -> Bool
 -- | 'downTestBounds' tests if a 'Point' is within the lower edge of the
 -- 'World'.
 downTestBounds (a, b) = a <= (-worldHeight/2) + b
