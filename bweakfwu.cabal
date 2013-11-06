@@ -9,7 +9,7 @@ author:        Alexander Berntsen, Stian Ellingsen
 maintainer:    alexander@plaimi.net
 category:      Game
 build-type:    Simple
-cabal-version: >=1.4
+cabal-version: >=1.6
 
 Executable bweakfwu
            Main-is:        Main.hs
@@ -27,6 +27,6 @@ Executable bweakfwu
                            Visible.ScoreKeeper
                            Window
                            World
-           Build-Depends:  base >=4, gloss >=1.8.0
+           Build-Depends:  base ==4.*, gloss >=1.8.0
            hs-source-dirs: src src/bweakfwu
            ghc-options:    -threaded
