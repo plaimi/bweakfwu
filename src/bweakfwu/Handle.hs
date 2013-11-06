@@ -28,6 +28,8 @@ import Movable.Paddle (react, Direction (U, D))
 import World (World (World), launchBall, updateRunning)
 
 handle :: Event -> World -> World
+-- | 'handle' handles input 'Event's and makes the 'World' react to them.
+
 -- Left paddle up.
 handle (EventKey (SpecialKey KeyUp) state _ _) (World (p1, p2) b bs s r) =
   World (p1, react p2 (U, state == Down)) b bs s r

@@ -1,5 +1,6 @@
 {-
 - Copyright (C) 2013 Stian Ellingsen <stian@plaimi.net>
+- Copyright (C) 2013 Alexander Berntsen <alexander@plaimi.net>
 -
 - This file is part of bweakfwu
 -
@@ -18,9 +19,11 @@
 -} module Mathema where
 
 magApply ::  (Float -> Float) -> Float -> Float
+-- | 'magApply' applies a function to the magnitude of a number.
 magApply f x =
   let sig = signum x
   in  sig * f (sig * x)
 
 clamp ::  Float -> Float -> Float -> Float
+-- | 'clamp' clamps a number between a low and a high.
 clamp low high = max low . min high

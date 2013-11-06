@@ -1,5 +1,6 @@
 {-
 - Copyright (C) 2013 Stian Ellingsen <stian@plaimi.net>
+- Copyright (C) 2013 Alexander Berntsen <alexander@plaimi.net>
 -
 - This file is part of bweakfwu
 -
@@ -22,21 +23,30 @@ import Graphics.Gloss.Data.Vector (Vector)
 import Mathema (clamp)
 import Vector (magVec, vecNorm)
 
-data Shape = Circle Radius | AARect Width Height
+data Shape =
+  -- | A 'Shape' is a 'Circle' with a 'Radius', or an 'AARect' with a 'Width'
+  -- and a 'Height'.
+  Circle Radius | AARect Width Height
 
+-- | 'Width' is the width of an object.
 type Width = Float
+-- | 'Height' is the height of an object.
 type Height = Float
+-- | 'Radius' is the radius of an object.
 type Radius = Float
+-- | 'Normal' is a normal vector.
 type Normal = Vector
 
 outerRadius ::  Shape -> Radius
+-- | 'outerRadius' finds the outer 'Radius' of a 'Shape'.
 outerRadius (Circle r) = r
 outerRadius (AARect w h) = magVec (w, h) / 2
 
 intersect ::  Shape -> Shape -> Vector -> Maybe Normal
--- Circle--AARect is like AARect--Circle. In principle, both the vector
--- parameter and the resulting normal should be negated, but leaving them both
--- as they are is just as effective.
+-- | 'intersect' checks if two 'Shape's intersect.
+-- 'Circle'--'AARect' is like AARect--Circle. In principle, both the 'Vector'
+-- parameter and the resulting 'Normal' should be negated, but leaving them
+-- both as they are is just as effective.
 intersect c@(Circle _) r@(AARect _ _) v = intersect r c v
 -- Fast check to eliminate pairs that don't have overlapping bounding circles.
 intersect s1 s2 v

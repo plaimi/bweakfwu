@@ -23,18 +23,31 @@ import Graphics.Gloss.Data.Color (Color)
 import Shape (Shape, Height, Normal, Width, intersect)
 import Visible (Visible)
 
+-- | All objects in the 'World' that are capable of colliding are 'Tangible'
+-- objects. All Tangible objects are 'Visible'.
 class (Visible a) => Tangible a where
+  -- | 'shape' is the 'Shape' of a 'Tangible'.
   shape  ::  a -> Shape
+  -- | 'centre' is the centre point of a 'Tangible'.
   centre ::  a -> (Float, Float)
+  -- | 'left' is the horizontal of the left side of a 'Tangible'.
   left   ::  a -> Float
+  -- | 'right' is the horizontal of the right side of a 'Tangible'.
   right  ::  a -> Float
+  -- | 'top' is the vertical of the top side of a 'Tangible'.
   top    ::  a -> Float
+  -- | 'bottom' is the vertical of the bottom side of a 'Tangible'.
   bottom ::  a -> Float
+  -- | 'width' is the 'Width' of a 'Tangible'.
   width  ::  a -> Float
+  -- | 'height' is the 'Height' of a 'Tangible'.
   height ::  a -> Float
+  -- | 'colour' is the 'Color' of a 'Tangible'.
   colour ::  a -> Color
 
+-- | 'Position' is a ('Width', 'Height').
 type Position = (Width, Height)
 
 collide ::  (Tangible a, Tangible b) => a -> b -> Maybe Normal
+-- | 'collide' checks if two tangibles intersect.
 collide a b = intersect (shape a) (shape b) (centre b - centre a)

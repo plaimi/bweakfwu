@@ -17,4 +17,5 @@
 - along with bwekfwu  If not, see <http://www.gnu.org/licenses/>.
 -} module Time where
 
+-- | 'StepTime' is the amount of steps in a wall clock second.
 type StepTime = Float

@@ -10,10 +10,7 @@ remapping support yet, but you can change it in src/bweakfwu/Handle.hs.
 
 For a more detailed explanation of features see the design document in 
 doc/design.txt. For an explanation of how these features are implemented see 
-the technical document in doc/technical.txt. For an explanation on how the 
-explanations are structured, see doc/about.txt. Note that these documents may
-reflect our currently immediate goals, not the current status of the 
-implementation.
+the Haddock-generated documentation.
 
 
 Dependencies

@@ -22,11 +22,14 @@ import Graphics.Gloss.Data.Picture (Picture (Color, Scale, Text, Translate))
 
 import Visible (Visible, render)
 
-data ScoreKeeper = ScoreKeeper Score Score
+data ScoreKeeper =
+  -- | 'ScoreKeeper' consists of two 'Score's.
+  ScoreKeeper Score Score
 
 type Score = Float
 
 instance Visible ScoreKeeper where
+  -- | 'render' draws a 'ScoreKeeper' at the top of the 'World'.
   render s =
     Color (dark cyan)
     $ Translate (-5.0) 18.0
@@ -34,17 +37,25 @@ instance Visible ScoreKeeper where
     $ Text (stringScore s)
 
 stringScore ::  ScoreKeeper -> String
+-- | 'stringScore' makes a string representation of the 'Score's of a
+-- 'ScoreKeeper'.
 stringScore (ScoreKeeper s1 s2) =
   show (realScore s1) ++ " : " ++ show (realScore s2)
 
 realScore ::  Score -> Int
+-- | 'realScore' gets the effective score of a 'Score'. The 'Score's of
+-- a 'ScoreKeeper' are floating point numbers for the sake of adding and
+-- deducting points, but the effective score of a player is an integer.
 realScore s = floor s :: Int
 
 mergeScores ::  [ScoreKeeper] -> ScoreKeeper
+-- | 'mergeScores' takes a list of 'ScoreKeeper's and merges them into one
+-- ScoreKeeper.
 mergeScores sk =
   ScoreKeeper s1 s2
   where s1 = sum (map (fst . scores) sk)
         s2 = sum (map (snd . scores) sk)
 
 scores ::  ScoreKeeper -> (Score, Score)
+-- | 'scores' returns the 'Score's of a 'ScoreKeeper' as a tuple.
 scores (ScoreKeeper s1 s2) = (s1, s2)

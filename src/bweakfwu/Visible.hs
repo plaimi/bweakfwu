@@ -19,5 +19,7 @@
 
 import Graphics.Gloss.Data.Picture (Picture)
 
+-- | All objects in the 'World' that need to be drawn are 'Visible' objects.
 class Visible a where
+  -- | 'render' makes a 'Picture' of a 'Visible'.
   render ::  a -> Picture

@@ -25,6 +25,7 @@ import Window (window)
 import World (bang, step, view)
 
 main ::  IO ()
+-- | 'main' starts the game loop.
 main =
   play
   window -- The display mode.
