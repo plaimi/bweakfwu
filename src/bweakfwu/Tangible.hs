@@ -19,6 +19,7 @@
 -} module Tangible where
 
 import Graphics.Gloss.Data.Color (Color)
+import Graphics.Gloss.Data.Point (Point)
 
 import Shape (Shape, Height, Normal, Width, intersect)
 import Visible (Visible)
@@ -29,7 +30,7 @@ class (Visible a) => Tangible a where
   -- | 'shape' is the 'Shape' of a 'Tangible'.
   shape  ::  a -> Shape
   -- | 'centre' is the centre point of a 'Tangible'.
-  centre ::  a -> (Float, Float)
+  centre ::  a -> Point
   -- | 'left' is the horizontal of the left side of a 'Tangible'.
   left   ::  a -> Float
   -- | 'right' is the horizontal of the right side of a 'Tangible'.
