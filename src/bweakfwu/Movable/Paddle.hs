@@ -70,9 +70,9 @@ react ::  Paddle -> ControlInput -> Paddle
 react (Paddle pos s c v ctrls) ci = Paddle pos s c v $ updateControls ci ctrls
 
 updateControls ::  ControlInput -> Controls -> Controls
-updateControls (U, b) (_, d, l) = (b, d, l)
-updateControls (D, b) (u, _, l) = (u, b, l)
-updateControls (L, b) (u, d, _) = (u, d, b)
+updateControls (U, pressP) (_, d, l) = (pressP, d, l)
+updateControls (D, pressP) (u, _, l) = (u, pressP, l)
+updateControls (L, pressP) (u, d, _) = (u, d, pressP)
 
 maxSpeed ::  Speed
 maxSpeed = 60.0
