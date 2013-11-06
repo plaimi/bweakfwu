@@ -38,7 +38,7 @@ data Brick =
 -- | 'Health' is the number of hit points an object has.
 type Health = Int
 -- | 'MaxHealth' is the max number of hit points an object can possibly have.
-type MaxHealth = Int
+type MaxHealth = Health
 
 instance Visible Brick where
   -- | 'render' draws a 'Brick' in its 'Position'. Its 'Color' is determined
