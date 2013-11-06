@@ -9,7 +9,7 @@ author:        Alexander Berntsen, Stian Ellingsen
 maintainer:    alexander@plaimi.net
 category:      Game
 build-type:    Simple
-cabal-version: >=1.2
+cabal-version: >=1.4
 
 Executable bweakfwu
            Main-is:        Main.hs
