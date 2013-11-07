@@ -23,7 +23,7 @@ import Graphics.Gloss.Data.Picture (Picture (Color, Scale, Text, Translate))
 import Visible (Visible, render)
 
 data ScoreKeeper =
-  -- | 'ScoreKeeper' consists of two 'Score's.
+  -- | A 'ScoreKeeper' consists of two 'Score's.
   ScoreKeeper Score Score
 
 type Score = Float
@@ -50,7 +50,7 @@ realScore s = floor s :: Int
 
 mergeScores ::  [ScoreKeeper] -> ScoreKeeper
 -- | 'mergeScores' takes a list of 'ScoreKeeper's and merges them into one
--- ScoreKeeper.
+-- 'ScoreKeeper'.
 mergeScores sk =
   ScoreKeeper s1 s2
   where s1 = sum (map (fst . scores) sk)

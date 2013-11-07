@@ -32,7 +32,7 @@ import Vector (magVec, vecLimitMag)
 import Visible (Visible, render)
 
 data Ball =
-  -- | 'Ball' has a 'Position', 'Radius', 'Color' and 'Velocity'.
+  -- | A 'Ball' has a 'Position', 'Radius', 'Color' and 'Velocity'.
   Ball Position Radius Color Velocity
 
 instance Visible Ball where
@@ -96,5 +96,5 @@ minVSpeed = 1.0
 
 accelFactor ::  Float
 -- | 'accelFactor' is how quickly a 'Ball' 'accelerate's. This determines how
--- quickly the Ball is forced to minimum and maximum speeds.
+-- quickly the 'Ball' is forced to minimum and maximum 'Speed's.
 accelFactor = 1.0 / 2.5

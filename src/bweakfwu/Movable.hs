@@ -55,13 +55,13 @@ dvApply v n dvm = v + n ^*^ dvm
 
 updateVelocity ::  Movable a => a -> StepTime -> Velocity
 -- | 'updateVelocity' updates the 'Velocity' of a 'Movable' based on the step
--- time. It makes sure the Movable adheres to a limit.
+-- time. It makes sure the 'Movable' adheres to a limit.
 updateVelocity m dt = vel m + vecLimitMag (dt * acceleration m) dv
   where dv = targetVel m - vel m
 
 reflect ::  Float -> Normal -> Velocity -> Velocity -> Velocity
 -- | 'reflect' calculates a new 'Velocity' based on frictionless collision on
--- the collision 'Normal' with the Velocitys of the two objects that crash.
+-- the collision 'Normal' with the 'Velocity's of the two objects that crash.
 reflect cor n v w =
   dvApply v n dvm              -- New velocity from frictionless collision.
   where rv  = v - w            -- Relative velocity between colliders.

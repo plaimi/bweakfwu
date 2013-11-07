@@ -24,12 +24,12 @@ import Visible (Visible, render)
 import Visible.Brick (Brick (Brick))
 
 data Board =
-  -- | 'Board' consists of a list of 'Brick's.
+  -- | A 'Board' consists of a list of 'Brick's.
   Board [Brick]
 
 instance Visible Board where
   -- | 'render' draws a 'Board' by calling the render function of each 'Brick'
-  -- on the Board.
+  -- on the 'Board'.
   render (Board bs) = Pictures (map render bs)
 
 brickBoard ::  Int -> Int -> [Brick]

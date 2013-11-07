@@ -25,9 +25,8 @@ import Mathema (clamp)
 import Vector (magVec, vecNorm)
 
 data Shape =
-  -- | A 'Shape' is a 'Circle' with a 'Radius', or an 'AARect' with a 'Width'
-  -- and a 'Height'.
-  Circle Radius | AARect Width Height
+  Circle Radius -- ^ A 'Shape' is a 'Circle' with a 'Radius',
+  | AARect Width Height -- ^ or an 'AARect' with a 'Width' and a 'Height'.
 
 outerRadius ::  Shape -> Radius
 -- | 'outerRadius' finds the outer 'Radius' of a 'Shape'.

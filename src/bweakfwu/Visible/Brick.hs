@@ -31,14 +31,14 @@ data Brick =
   -- | A 'Brick' has a 'Position', a 'Width' and a 'Height', 'Health', a
   -- 'MaxHealth' value and a 'Color'.
   --
-  -- Note that brick ownership is determined by comparing the Brick's Color
-  -- to the Color of the 'Paddle's or 'Ball's of the players. In the future
-  -- this should be done more sanely.
+  -- Note that 'Brick' ownership is determined by comparing the 'Color' of the
+  -- 'Brick' to the 'Color' of the 'Paddle's or 'Ball's of the players. In the
+  -- future this should be done more sanely.
   Brick Position (Width, Height) Health MaxHealth Color
 
 -- | 'Health' is the number of hit points an object has.
 type Health = Int
--- | 'MaxHealth' is the max number of hit points an object can possibly have.
+-- | 'MaxHealth' is the max 'Health' value an object can possibly have.
 type MaxHealth = Health
 
 instance Visible Brick where

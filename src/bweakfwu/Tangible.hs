@@ -26,7 +26,7 @@ import Shape (Shape, intersect)
 import Visible (Visible)
 
 -- | All objects in the 'World' that are capable of colliding are 'Tangible'
--- objects. All Tangible objects are 'Visible'.
+-- objects. All 'Tangible' objects are 'Visible'.
 class (Visible a) => Tangible a where
   -- | 'shape' is the 'Shape' of a 'Tangible'.
   shape  ::  a -> Shape
@@ -51,5 +51,5 @@ class (Visible a) => Tangible a where
 type Position = (Width, Height)
 
 collide ::  (Tangible a, Tangible b) => a -> b -> Maybe Normal
--- | 'collide' checks if two tangibles intersect.
+-- | 'collide' checks if two 'Tangible's intersect.
 collide a b = intersect (shape a) (shape b) (centre b - centre a)

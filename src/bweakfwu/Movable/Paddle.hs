@@ -32,20 +32,20 @@ import Tangible (Tangible, Position, bottom, centre
 import Visible (Visible, render)
 
 data Paddle =
-  -- | 'Paddle' has a 'Position', a 'Width' and a 'Height', a 'Color', and a
-  -- set of 'Controls'.
+  -- | A 'Paddle' has a 'Position', a 'Width' and a 'Height', a 'Color', and
+  -- a set of 'Controls'.
   Paddle Position (Width, Height) Color Velocity Controls
 data Direction =
   -- | 'Direction' is the direction in which a 'Paddle' may move. It may move
   -- up (U), down (D) or left (L).
   U | D | L deriving (Eq)
 
--- | 'Controls' are three booleans signifying whether the Controls are
+-- | 'Controls' are three booleans signifying whether the 'Controls' are
 -- pressed.
 type Controls = (Bool, Bool, Bool)
 -- | 'ControllInput' is a whether a 'Paddle' wants to go in a 'Direction'.
 type ControlInput = (Direction, Bool)
--- | 'Edge' is the Edge of a Point.
+-- | 'Edge' is the 'Edge' of a 'Paddle'.
 type Edge   = Point
 
 instance Visible Paddle where
@@ -105,5 +105,5 @@ updateControls (D, pressP) (u, _, l) = (u, pressP, l)
 updateControls (L, pressP) (u, d, _) = (u, d, pressP)
 
 maxSpeed ::  Speed
--- | 'maxSpeed' is the maximum speed a 'Paddle' can have in any Direction.
+-- | 'maxSpeed' is the maximum 'Speed' a 'Paddle' can have in any direction.
 maxSpeed = 60.0
