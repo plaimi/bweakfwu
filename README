@@ -37,6 +37,8 @@ $ cabal configure
 # Build the game, puts a binary in ./dist/build/bweakfwu/
 $ cabal build
 # Make the documentation, puts html in ./dist/doc/htm/bweakfwu/bweakfwu/
+# You can view the documentation for the latest git commit online as well, at:
+#   <https://secure.plaimi.net/games/bweakfwu/doc/frames.html>
 $ cabal haddock --executables --hyperlink-source
 
 To install the game use
