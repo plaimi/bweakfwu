@@ -33,9 +33,9 @@ import Tangible (centre, collide, left, right)
 import Time (StepTime)
 import Vector ((^/^))
 import Visible (render)
-import Visible.ScoreKeeper (ScoreKeeper (ScoreKeeper), Score, mergeScores)
 import Visible.Board (Board (Board), brickBoard)
 import Visible.Brick (Brick (Brick), maxHealth)
+import Visible.ScoreKeeper (ScoreKeeper (ScoreKeeper), Score, mergeScores)
 import Window (windowHeight, windowWidth)
 
 data World =
