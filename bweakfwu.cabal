@@ -24,6 +24,8 @@ Executable bweakfwu
                            Time
                            Vector
                            Visible
+                           Visible.Board
+                           Visible.Brick
                            Visible.ScoreKeeper
                            Window
                            World
