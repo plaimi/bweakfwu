@@ -94,7 +94,7 @@ view (World (p1, p2) (b1, b2) bs s _) =
              ,render b2
              ,render bs
              ,render s
-             ,Color white $ rectangleWire 80 45]
+             ,Color white $ rectangleWire worldWidth worldHeight]
   where wh         = fromIntegral windowHeight
         ww         = fromIntegral windowWidth
         worldScale = min (wh / worldHeight) (ww / worldWidth)
