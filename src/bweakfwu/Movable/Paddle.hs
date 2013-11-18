@@ -34,7 +34,19 @@ import Visible (Visible, render)
 data Paddle =
   -- | A 'Paddle' has a 'Position', a 'Width' and a 'Height', a 'Color', and
   -- a set of 'Controls'.
-  Paddle Position (Width, Height) Color Velocity Controls
+  Paddle {
+         -- | The 'Position' of a 'Paddle'.
+         position    :: Position,
+         -- | The 'Width' and 'Height' of a 'Paddle'.
+         widthHeight :: (Width, Height),
+         -- | The 'Color' of a 'Paddle'.
+         color       :: Color,
+         -- | The 'Velocity' of a 'Paddle'.
+         velocity    :: Velocity,
+         -- | The 'Controls' of a 'Paddle'.
+         controls    :: Controls
+         }
+
 data Direction =
   -- | 'Direction' is the direction in which a 'Paddle' may move. It may move
   -- up (U), down (D) or left (L).
@@ -57,27 +69,27 @@ instance Visible Paddle where
 
 instance Tangible Paddle where
   -- | 'shape' is the 'Shape' of a 'Paddle'.
-  shape (Paddle _ (w, h) _ _ _)       = AARect w h
+  shape    = uncurry AARect . widthHeight
   -- | 'centre' is the centre 'Point' of a 'Paddle'.
-  centre (Paddle (x, y) _ _ _ _)      = (x, y)
+  centre   = position
   -- | 'left' is the horizontal of the left side of a 'Paddle'.
-  left (Paddle (x, _) (w, _) _ _ _)   = x - w / 2.0
+  left p   = fst (position p) - fst (widthHeight p) / 2.0
   -- | 'right' is the horizontal of the right side of a 'Paddle'.
-  right (Paddle (x, _) (w, _) _ _ _)  = x + w / 2
+  right p  = fst (position p) + fst (widthHeight p) / 2.0
   -- | 'top' is the vertical of the top side of a 'Paddle'.
-  top (Paddle (_, y) (_, h) _ _ _)    = y + h / 2.0
+  top p    = snd (position p) + snd (widthHeight p) / 2.0
   -- | 'bottom' is the vertical of the bottom side of a 'Paddle'.
-  bottom (Paddle (_, y) (_, h) _ _ _) = y - h / 2.0
+  bottom p = snd (position p) - snd (widthHeight p) / 2.0
   -- | 'width' is the 'Width' of a 'Paddle'.
-  width (Paddle _ (w, _) _ _ _)       = w
+  width    = fst . widthHeight
   -- | 'height' is the 'Height' of a 'Paddle'.
-  height (Paddle _ (_, h) _ _ _)      = h
+  height   = snd . widthHeight
   -- | 'colour' is the 'Color' of a 'Paddle'.
-  colour (Paddle _ _ c _ _)           = c
+  colour   = color
 
 instance Movable Paddle where
   -- | 'vel' is the 'Velocity' of a 'Paddle'.
-  vel (Paddle (_, _) (_, _) _ v _)    = v
+  vel      = velocity
 
   -- | 'move' steps a 'Paddle' one step forward by moving it according to its
   -- 'Velocity'.

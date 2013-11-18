@@ -34,7 +34,18 @@ data Brick =
   -- Note that 'Brick' ownership is determined by comparing the 'Color' of the
   -- 'Brick' to the 'Color' of the 'Paddle's or 'Ball's of the players. In the
   -- future this should be done more sanely.
-  Brick Position (Width, Height) Health MaxHealth Color
+  Brick {
+         -- | The 'Position' of a 'Brick'.
+        position    :: Position,
+         -- | The 'Width' and 'Height' of a 'Brick'.
+        widthHeight :: (Width, Height),
+         -- | The 'Health' of a 'Brick'.
+        health      :: Health,
+         -- | The 'MaxHealth' of a 'Brick'.
+        maxHealth   :: MaxHealth,
+         -- | The 'Color' of a 'Brick'.
+        color        :: Color
+        }
 
 -- | 'Health' is the number of hit points an object has.
 type Health = Int
@@ -51,28 +62,20 @@ instance Visible Brick where
 
 instance Tangible Brick where
   -- | 'shape' is the 'Shape' of a 'Brick'.
-  shape (Brick _ (w, h) _ _ _)        = AARect w h
+  shape    = uncurry AARect . widthHeight
   -- | 'centre' is the centre 'Point' of a 'Brick'.
-  centre (Brick (x, y) _ _ _ _)       = (x, y)
+  centre   = position
   -- | 'left' is the horizontal of the left side of a 'Brick'.
-  left (Brick (x, _) (w, _) _ _ _)    = x - w / 2.0
+  left b   = fst (position b) - fst (widthHeight b) / 2.0
   -- | 'right' is the horizontal of the right side of a 'Brick'.
-  right (Brick (x, _) (w, _) _ _ _)   = x + w / 2
+  right b  = fst (position b) + fst (widthHeight b) / 2.0
   -- | 'top' is the vertical of the top side of a 'Brick'.
-  top (Brick (_, y) (_, h) _ _ _)     = y + h / 2.0
+  top b    = snd (position b) + snd (widthHeight b) / 2.0
   -- | 'bottom' is the vertical of the bottom side of a 'Brick'.
-  bottom (Brick (_, y) (_, h) _ _ _)  = y - h / 2.0
+  bottom b = snd (position b) - snd (widthHeight b) / 2.0
   -- | 'width' is the 'Width' of a 'Brick'.
-  width (Brick _ (w, _) _ _ _)        = w
+  width    = fst . widthHeight
   -- | 'height' is the 'Height' of a 'Brick'.
-  height (Brick _ (_, h) _ _ _)       = h
+  height   = snd . widthHeight
   -- | 'colour' is the 'Color' of a 'Brick'.
-  colour (Brick _ _ _ _ c)            = c
-
-health ::  Brick -> Health
--- | 'health' gets the 'Health' of a 'Brick'.
-health (Brick _ _ h _ _) = h
-
-maxHealth ::  Brick -> Health
--- | 'maxHealth' gets the 'MaxHealth' of a 'Brick'.
-maxHealth (Brick _ _ _ h _) = h
+  colour   = color

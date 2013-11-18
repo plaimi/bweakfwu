@@ -29,19 +29,31 @@ import Geometry (Height, Width)
 import Movable (dvApply, dvMag, move, reflect, vel)
 import Movable.Ball (Ball (Ball))
 import Movable.Paddle (Paddle (Paddle))
-import Tangible (centre, collide, left, right)
+import Tangible (centre, collide, colour, left, right)
 import Time (StepTime)
 import Vector ((^/^))
 import Visible (render)
-import Visible.Board (Board (Board), brickBoard)
+import Visible.Board (Board (Board), brickBoard, bricks)
 import Visible.Brick (Brick (Brick), maxHealth)
-import Visible.ScoreKeeper (ScoreKeeper (ScoreKeeper), Score, mergeScores)
+import Visible.ScoreKeeper (ScoreKeeper (ScoreKeeper), Score, mergeScores
+                           ,score1, score2)
 import Window (windowHeight, windowWidth)
 
 data World =
   -- | A 'World' is constructed with two 'Paddle's, two 'Ball's, a
   -- 'ScoreKeeper' and a 'RunningP' to signify whether it is running or not.
-  World (Paddle, Paddle) (Ball, Ball) Board ScoreKeeper RunningP
+  World {
+        -- | Two 'Paddle's, one per player.
+        paddles     :: (Paddle, Paddle),
+        -- | Two 'Ball's, one per player.
+        balls       :: (Ball, Ball),
+        -- | The 'Board' of ['Brick']
+        board       :: Board,
+        -- | The 'ScoreKeeper' keeps the 'Score's of each player.
+        scorekeeper :: ScoreKeeper,
+        -- | A 'RunningP' denotes whether the 'World' is running or not.
+        runningP    :: RunningP
+        }
 
 -- | 'RunningP' signifies whether a 'World' is active or not.
 type RunningP = Bool
@@ -71,13 +83,15 @@ bang ::  World
 -- There is no real concept of a player in bweakfwu. This should also be
 -- introduced.
 bang =
-  World (Paddle (-35.0, 0) (1, 7) yellow 0 (False, False, False)
-        ,Paddle (35.0, 0) (1, 7) magenta 0 (False, False, False))
-        (Ball (-34.0, 0) 0.5 yellow 0
-        ,Ball (34.0, 0) 0.5 magenta 0)
-        (Board board)
-        (ScoreKeeper 0 0)
-        True
+  World {
+        paddles     = (Paddle (-35.0, 0) (1, 7) yellow 0 (False, False, False)
+                      ,Paddle (35.0, 0) (1, 7) magenta 0 (False, False, False))
+       ,balls       = (Ball (-34.0, 0) 0.5 yellow 0
+                      ,Ball (34.0, 0) 0.5 magenta 0)
+       ,board       = Board makeBoard
+       ,scorekeeper = ScoreKeeper 0 0
+       ,runningP    = True
+      }
 
 crunch :: World
 -- | 'crunch' destroys a 'World'. Presently it makes a new 'World' as well. In
@@ -86,14 +100,14 @@ crunch = bang
 
 view ::  World -> Picture
 -- | 'view' redraws a 'World'.
-view (World (p1, p2) (b1, b2) bs s _) =
+view w =
   Scale worldScale worldScale
-  $ Pictures [render p1
-             ,render p2
-             ,render b1
-             ,render b2
-             ,render bs
-             ,render s
+  $ Pictures [render . fst $ paddles w
+             ,render . snd $ paddles w
+             ,render . fst $ balls w
+             ,render . snd $ balls w
+             ,render $ board w
+             ,render $ scorekeeper w
              ,Color white $ rectangleWire worldWidth worldHeight]
   where wh         = fromIntegral windowHeight
         ww         = fromIntegral windowWidth
@@ -111,10 +125,11 @@ gameP ::  World -> Bool
 -- | 'gameP' checks whether a game is in progress by checking if the 'Board'
 -- is empty and if somebody is leading (which means there is a potential
 -- winner).
-gameP (World _ _ (Board bs) (ScoreKeeper s1 s2) _) =
+gameP w =
   not (emptyBoard && winner)
-  where emptyBoard = null bs
-        winner     = s1 /= s2
+  where emptyBoard = null . bricks $ board w
+        winner = score1 sk /= score2 sk
+        sk = scorekeeper w
 
 gameStop ::  World
 -- | 'gameStop' stops a 'World'.
@@ -122,16 +137,16 @@ gameStop = crunch
 
 gameStep ::  StepTime -> World -> World
 -- | 'gameStep' moves a 'World' forward one step.
-gameStep t w@(World _ _ _ _ r) =
-  if r
+gameStep t w =
+  if runningP w
     then updateVisibles t
        $ updateTangibles t
        $ clampTangibles w
     else w
 
-board ::  [Brick]
+makeBoard ::  [Brick]
 -- | 'board' makes a list of 'Brick's.
-board = brickBoard 45 45
+makeBoard = brickBoard 45 45
 
 clampTangibles :: World -> World
 -- | 'clampTangibles' makes sure the 'Tangible's of a 'World' do not move
@@ -235,9 +250,9 @@ reflectBricks ::  Ball -> Ball -> Board -> ((Ball, Ball), Board, ScoreKeeper)
 -- | 'reflectBricks' checks if either 'Ball' collides with any of the 'Brick's
 -- on the 'Board'. If a 'Ball' collides, it is 'reflect'ed and the 'Brick' it
 -- hits has its 'Health' updated.
-reflectBricks b1 b2 (Board bricks)  =
-  (( b1', b2'), Board b2bricks, ScoreKeeper s1 s2)
-  where (b1', b1bricks, s1) = reflectBricksWithBall b1 bricks
+reflectBricks b1 b2 b  =
+  ((b1', b2'), Board b2bricks, ScoreKeeper s1 s2)
+  where (b1', b1bricks, s1) = reflectBricksWithBall b1 (bricks b)
         (b2', b2bricks, s2) = reflectBricksWithBall b2 b1bricks
 
 reflectBricksWithBall ::  Ball -> [Brick] -> (Ball, [Brick], Score)
@@ -275,18 +290,18 @@ updateBrick ::  Brick -> Ball -> Float -> Maybe Brick
 -- 'Brick' is owned by the player that hits it, it loses 'Health'. If it is
 -- hit by the player which does not own it, it gains 'Health' up to its
 -- possible 'MaxHealth'.
-updateBrick brick@(Brick p s h maxH c) (Ball _ _ col _) dvm =
+updateBrick brick@(Brick p s h maxH c) ball dvm =
   if h' > 0
     then Just (Brick p s h' maxH c')
     else Nothing
-  where h'         = if c == white || c == col
+  where h'         = if c == white || c == colour ball
                        then downHealth
                        else upHealth
         downHealth = floor $ fromIntegral h - impact
         upHealth   = min (maxHealth brick) (ceiling $ fromIntegral h + impact)
         impact     = dvm / 50 -- Magic gameplay-suitable number.
         c'
-          | c == white = col
+          | c == white = colour ball
           | maxH == h' = white
           | otherwise  = c
 
@@ -340,7 +355,7 @@ notLaunched ::  Ball -> Bool
 --
 -- Presently we can check this simply by checking if the 'Ball' is still, as
 -- this situation should only occur if a 'Ball' has not yet been launched.
-notLaunched (Ball _ _ _ v) = v == 0
+notLaunched b = vel b == 0
 
 punish ::  Ball -> StepTime -> ScoreKeeper
 -- | 'punish' discourages bad sportmanship by subtracting points for bad
@@ -355,10 +370,12 @@ punishIdling ::  Ball -> StepTime -> ScoreKeeper
 -- The main reason for this is to punish griefing in the form of waiting
 -- until you have hit the opponent's 'Ball', and then launching your own 'Ball'
 -- in the opposite direction.
-punishIdling b@(Ball _ _ c _) t
+punishIdling b t
   | notLaunched b = ScoreKeeper s1 s2
   | otherwise     = ScoreKeeper 0 0
-  where (s1, s2)   = if c == yellow then (punishment, 0) else (0, punishment)
+  where (s1, s2)   = if colour b == yellow
+                       then (punishment, 0)
+                       else (0, punishment)
         punishment = negate (5 * t) -- Five points deducted per second.
 
 worldWidth ::  Width

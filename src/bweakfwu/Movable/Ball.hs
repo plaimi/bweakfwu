@@ -33,7 +33,16 @@ import Visible (Visible, render)
 
 data Ball =
   -- | A 'Ball' has a 'Position', 'Radius', 'Color' and 'Velocity'.
-  Ball Position Radius Color Velocity
+  Ball {
+       -- | The 'Position' of a 'Ball'.
+       position :: Position,
+       -- | The 'Radius' of a 'Ball'.
+       radius   :: Radius,
+       -- | The 'Color' of a 'Ball'.
+       color    :: Color,
+       -- | The 'Velocity' of a 'Ball'.
+       velocity :: Velocity
+       }
 
 instance Visible Ball where
   -- | 'render' draws a 'Ball'.
@@ -44,27 +53,27 @@ instance Visible Ball where
 
 instance Tangible Ball where
   -- | 'shape' is the 'Shape' of a 'Ball'.
-  shape (Ball _ r _ _)       = Circle r
+  shape b  = Circle $ radius b
   -- | 'centre' is the centre 'Point' of a 'Ball'.
-  centre (Ball p _ _ _)      = p
+  centre   = position
   -- | 'left' is the horizontal of the left side of a 'Ball'.
-  left (Ball (x, _) r _ _)   = x - r
+  left b   = fst (position b) - radius b
   -- | 'right' is the horizontal of the right side of a 'Ball'.
-  right (Ball (x, _) r _ _)  = x + r
+  right b  = fst (position b) + radius b
   -- | 'top' is the vertical of the top side of a 'Ball'.
-  top (Ball (_, y) r _ _)    = y + r
+  top b    = snd (position b) + radius b
   -- | 'bottom' is the vertical of the bottom side of a 'Ball'.
-  bottom (Ball (_, y) r _ _) = y - r
+  bottom b = snd (position b) - radius b
   -- | 'width' is the 'Width' of a 'Ball'.
-  width (Ball _ r _  _)      = 2.0 * r
+  width b  = 2.0 * radius b
   -- | 'height' is the 'Height' of a 'Ball'.
-  height (Ball _ r _  _)     = 2.0 * r
+  height b = 2.0 * radius b
   -- | 'colour' is the 'Color' of a 'Ball'.
-  colour (Ball _ _ c _)      = c
+  colour   = color
 
 instance Movable Ball where
   -- | 'vel' is the 'Velocity' of a 'Ball'.
-  vel (Ball _ _ _ v)         = v
+  vel      = velocity
 
   -- | 'move' steps a 'Ball' one step forward by moving it according to its
   -- 'Velocity'.

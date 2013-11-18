@@ -25,7 +25,10 @@ import Visible.Brick (Brick (Brick))
 
 data Board =
   -- | A 'Board' consists of a list of 'Brick's.
-  Board [Brick]
+  Board {
+        -- | A ['Brick'].
+        bricks :: [Brick]
+        }
 
 instance Visible Board where
   -- | 'render' draws a 'Board' by calling the render function of each 'Brick'

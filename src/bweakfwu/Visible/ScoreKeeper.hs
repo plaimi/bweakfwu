@@ -24,7 +24,12 @@ import Visible (Visible, render)
 
 data ScoreKeeper =
   -- | A 'ScoreKeeper' consists of two 'Score's.
-  ScoreKeeper Score Score
+  ScoreKeeper {
+              -- | The 'Score' for player one.
+              score1 :: Score,
+              -- | The 'Score' for player two.
+              score2 :: Score
+              }
 
 type Score = Float
 
