@@ -13,13 +13,15 @@ cabal-version: >=1.6
 
 Executable bweakfwu
            Main-is:        Main.hs
-           other-modules:  Geometry
-                           Handle
+           other-modules:  Game
+                           Geometry
                            Mathema
+                           Menu
                            Movable
                            Movable.Ball
                            Movable.Paddle
                            Shape
+                           System
                            Tangible
                            Time
                            Vector

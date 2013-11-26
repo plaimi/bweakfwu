@@ -20,18 +20,18 @@
 import Graphics.Gloss.Interface.Pure.Game (play)
 import Graphics.Gloss.Data.Color (black)
 
-import Handle (handle)
+import Game
+import System (draw, initialise, handle, step)
 import Window (window)
-import World (bang, step, view)
 
 main ::  IO ()
 -- | 'main' starts the game loop.
 main =
   play
-  window -- The display mode.
-  black  -- The background colour.
-  600    -- The number of simulation steps per second.
-  bang   -- Create initial world.
-  view   -- Convert the world to a picture.
-  handle -- Handle input.
-  step   -- Step the world one iteration.
+  window               -- The display mode.
+  black                -- The background colour.
+  600                  -- The number of simulation steps per second.
+  (initialise :: Game) -- Create initial world.
+  draw                 -- Convert the world to a picture.
+  handle               -- Handle input.
+  step                 -- Step the world one iteration.

@@ -26,8 +26,6 @@ rudimentary graphics
     entities should have outlines, rounded corners and err anything but solid
     colours
 rudimentary menu
-  -start game
-    just starts the game -- world.bang and step.
   -change keys
     remapping of keys for the paddles.
   -change paddle colours

@@ -21,6 +21,11 @@
 import Control.Applicative ((<$>), (<|>))
 
 import Graphics.Gloss.Data.Color (magenta, white, yellow)
+import Graphics.Gloss.Interface.Pure.Game (Event (EventKey)
+                                          ,Key (Char, SpecialKey)
+                                          ,KeyState (Down)
+                                          ,SpecialKey (KeyDown, KeyLeft
+                                                       ,KeySpace, KeyUp))
 import Graphics.Gloss.Data.Picture (Picture (Color, Pictures, Scale)
                                    , rectangleWire)
 import Graphics.Gloss.Data.Point (Point)
@@ -28,8 +33,10 @@ import Graphics.Gloss.Data.Point (Point)
 import Geometry (Height, Width)
 import Movable (dvApply, dvMag, move, reflect, vel)
 import Movable.Ball (Ball (Ball))
-import Movable.Paddle (Paddle (Paddle))
-import Tangible (centre, collide, colour, left, right)
+import Movable.Paddle (Paddle (Paddle), color, position, react, velocity
+                      ,widthHeight, Direction (U, D))
+import System (System, RunningP, draw, handle, initialise, step)
+import Tangible (centre, colour, collide, left, right)
 import Time (StepTime)
 import Vector ((^/^))
 import Visible (render)
@@ -42,84 +49,96 @@ import Window (windowHeight, windowWidth)
 data World =
   -- | A 'World' is constructed with two 'Paddle's, two 'Ball's, a
   -- 'ScoreKeeper' and a 'RunningP' to signify whether it is running or not.
+  --
+  -- Each player has a 'Paddle' and a 'Ball' each.
+  --
+  -- What 'Ball' is owned by which player is presently signified by checking the
+  -- 'Color' of the 'Ball'. In the future, 'Ball' ownership should be
+  -- introduced.
+  --
+  -- 'Brick' ownership is also presently signified by checking if the 'Color' of
+  -- the 'Brick' is the same as the 'Color' of the 'Ball' This should be changed
+  -- in the future.
+  --
+  -- There is no real concept of a player in bweakfwu. This should also be
+  -- introduced.
   World {
         -- | Two 'Paddle's, one per player.
-        paddles     :: (Paddle, Paddle),
+        paddles       :: (Paddle, Paddle),
         -- | Two 'Ball's, one per player.
-        balls       :: (Ball, Ball),
+        balls         :: (Ball, Ball),
         -- | The 'Board' of ['Brick'].
-        board       :: Board,
+        board         :: Board,
         -- | The 'ScoreKeeper' keeps the 'Score's of each player.
-        scorekeeper :: ScoreKeeper,
+        scorekeeper   :: ScoreKeeper,
         -- | A 'RunningP' denotes whether the 'World' is running or not.
-        runningP    :: RunningP
+        runningWorld  :: RunningP
         }
 
--- | 'RunningP' signifies whether a 'World' is active or not.
-type RunningP = Bool
+instance System World where
+  initialise =
+    World {
+          paddles     = (Paddle (-35.0, 0) (1, 7) yellow 0 (False, False, False)
+                        ,Paddle (35.0, 0) (1, 7) magenta 0 (False, False, False))
+         ,balls       = (Ball (-34.0, 0) 0.5 yellow 0
+                        ,Ball (34.0, 0) 0.5 magenta 0)
+         ,board       = Board makeBoard
+         ,scorekeeper = ScoreKeeper 0 0
+         ,runningWorld    = True
+        }
 
-bang ::  World
--- | 'bang' creates a world.
---
--- A 'World' has two 'Paddle's. One at the left edge, one at the right edge.
--- Each player has its own 'Ball', so a 'World' has two 'Ball's.
---
--- A 'World' has a 'Board', which is a set of 'Brick's. In the future it
--- should be possible to select between different 'Board's.
---
--- A 'World' has a 'ScoreKeeper' that tracks and displays player 'Score's.
---
--- A 'World' has a 'RunningP' that dictates whether it is active or not.
--- To pause the game, this may be set to False.
---
--- What 'Ball' is owned by which player is presently signified by checking the
--- 'Color' of the 'Ball'. In the future, 'Ball' ownership should be
--- introduced.
---
--- 'Brick' ownership is also presently signified by checking if the 'Color' of
--- the 'Brick' is the same as the 'Color' of the 'Ball' This should be changed
--- in the future.
---
--- There is no real concept of a player in bweakfwu. This should also be
--- introduced.
-bang =
-  World {
-        paddles     = (Paddle (-35.0, 0) (1, 7) yellow 0 (False, False, False)
-                      ,Paddle (35.0, 0) (1, 7) magenta 0 (False, False, False))
-       ,balls       = (Ball (-34.0, 0) 0.5 yellow 0
-                      ,Ball (34.0, 0) 0.5 magenta 0)
-       ,board       = Board makeBoard
-       ,scorekeeper = ScoreKeeper 0 0
-       ,runningP    = True
-      }
+  draw (World (p1, p2) (b1, b2) bs s _) =
+    Scale worldScale worldScale
+    $ Pictures [render p1
+               ,render p2
+               ,render b1
+               ,render b2
+               ,render bs
+               ,render s
+               ,Color white $ rectangleWire worldWidth worldHeight]
+    where wh         = fromIntegral windowHeight
+          ww         = fromIntegral windowWidth
+          worldScale = min (wh / worldHeight) (ww / worldWidth)
+
+  step t w =
+    if gameP w
+      then gameStep t w
+      else gameStop
+
+  -- Left paddle up.
+  handle (EventKey (SpecialKey KeyUp) state _ _) (World (p1, p2) b bs s r) =
+    World (p1, react p2 (U, state == Down)) b bs s r
+  -- Left paddle down.
+  handle (EventKey (SpecialKey KeyDown) state _ _) (World (p1, p2) b bs s r) =
+    World (p1, react p2 (D, state == Down)) b bs s r
+  -- Right paddle up.
+  handle (EventKey (Char 'u') state _ _) (World (p1, p2) b bs s r) =
+    World (react p1 (U, state == Down), p2) b bs s r
+  -- Right paddle down.
+  handle (EventKey (Char 'j') state _ _) (World (p1, p2) b bs s r) =
+    World (react p1 (D, state == Down), p2) b bs s r
+  -- Left paddle launch ball.
+  handle (EventKey (Char 'k') Down _ _) (World p@(p1, _) (b1, b2) bs s r) =
+    World p (launchBall b1 p1, b2) bs s r
+  -- Right paddle launch ball.
+  handle (EventKey (SpecialKey KeyLeft) Down _ _)
+         (World p@(_, p2) (b1, b2) bs s r) =
+    World p (b1, launchBall b2 p2) bs s r
+  -- Un/pause game.
+  handle (EventKey (SpecialKey KeySpace) Down _ _) (World (p1, p2) b bs s r) =
+    World p' b bs s (updateRunning r)
+    where p' = (Paddle (position p1) (widthHeight p1) (color p1) (velocity p1)
+                       (False, False, False)
+               ,Paddle (position p2) (widthHeight p2) (color p2) (velocity p2)
+                       (False, False, False))
+
+  -- No action.
+  handle _ w = w
 
 crunch :: World
 -- | 'crunch' destroys a 'World'. Presently it makes a new 'World' as well. In
 -- the future, it should only destroy a 'World'.
-crunch = bang
-
-view ::  World -> Picture
--- | 'view' redraws a 'World'.
-view w =
-  Scale worldScale worldScale
-  $ Pictures [render . fst $ paddles w
-             ,render . snd $ paddles w
-             ,render . fst $ balls w
-             ,render . snd $ balls w
-             ,render $ board w
-             ,render $ scorekeeper w
-             ,Color white $ rectangleWire worldWidth worldHeight]
-  where wh         = fromIntegral windowHeight
-        ww         = fromIntegral windowWidth
-        worldScale = min (wh / worldHeight) (ww / worldWidth)
-
-step ::  StepTime -> World -> World
--- | 'step' checks if the game is in progress. If it is, it moves a 'World'
--- forward one step. If not, it stops a 'World'.
-step t w =
-  if gameP w
-    then gameStep t w
-    else gameStop
+crunch = initialise
 
 gameP ::  World -> Bool
 -- | 'gameP' checks whether a game is in progress by checking if the 'Board'
@@ -138,7 +157,7 @@ gameStop = crunch
 gameStep ::  StepTime -> World -> World
 -- | 'gameStep' moves a 'World' forward one step.
 gameStep t w =
-  if runningP w
+  if runningWorld w
     then updateVisibles t
        $ updateTangibles t
        $ clampTangibles w
