@@ -194,8 +194,8 @@ updateTangibles ::  StepTime -> World -> World
 updateTangibles t (World (p1, p2) (b1, b2) bs s r) =
   let p'                    = (move p1 t, move p2 t)
       ((b1', b2'), bs', s') = reflectBricks b1 b2 bs
-      (b1'', b2'')          = uncurry reflectBalls (reflectPaddles b1' p1 p2
-                                                   ,reflectPaddles b2' p1 p2)
+      (b1'', b2'')          = reflectBalls (reflectPaddles b1' p1 p2)
+                                           (reflectPaddles b2' p1 p2)
       b'                    = (move b1'' t, move b2'' t)
   in  World p' b' bs' (mergeScores [s, s']) r
 
