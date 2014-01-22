@@ -47,7 +47,7 @@ data World =
         paddles     :: (Paddle, Paddle),
         -- | Two 'Ball's, one per player.
         balls       :: (Ball, Ball),
-        -- | The 'Board' of ['Brick']
+        -- | The 'Board' of ['Brick'].
         board       :: Board,
         -- | The 'ScoreKeeper' keeps the 'Score's of each player.
         scorekeeper :: ScoreKeeper,
