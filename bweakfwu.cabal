@@ -31,6 +31,6 @@ Executable bweakfwu
                            Visible.ScoreKeeper
                            Window
                            World
-           Build-Depends:  base ==4.*, gloss >=1.8.0
+           Build-Depends:  base ==4.*, gloss >=1.8.0, GLUT ==2.4.0.0
            hs-source-dirs: src src/bweakfwu
            ghc-options:    -threaded
